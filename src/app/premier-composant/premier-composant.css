@@ -1,0 +1,18 @@
+.form-container {
+    margin-left: 20px;
+}
+
+.cards-container {
+    width: 99vw;
+}
+
+#card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cards-container h2, #how-much-area {
+    margin-left: 20px;
+}
