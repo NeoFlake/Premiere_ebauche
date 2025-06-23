@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PremierComposant } from './premier-composant/premier-composant';
+import { PremierComposant } from './components/premier-composant/premier-composant';
 
 @Component({
   selector: 'app-root',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiRestAltered } from './api-rest-altered';
 import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
-import { BASE_URL, URL_ALT_ART, URL_CARAC_FOREST, URL_CARAC_MOUNTAIN, URL_CARAC_OCEAN, URL_FACTION, URL_KEYWORD, URL_MAIN_COST, URL_NAME, URL_RARITY, URL_RECALL_COST, URL_SET, URL_TYPE } from '../utils/api-altered';
+import { BASE_URL, URL_ALT_ART, URL_CARAC_FOREST, URL_CARAC_MOUNTAIN, URL_CARAC_OCEAN, URL_FACTION, URL_KEYWORD, URL_MAIN_COST, URL_NAME, URL_RARITY, URL_RECALL_COST, URL_SET, URL_TYPE } from '../../utils/api-altered';
 
 @Injectable({
   providedIn: 'root'

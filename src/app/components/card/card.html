@@ -4,7 +4,7 @@
             <div>{{card.name}}</div>
         </div>
         <div class="card-box-container">
-            <button>
+            <button (click)="openDetailCard(card)">
                 <img class="image-carte" src={{card.imagePath}} />
             </button>
         </div>

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { PremierComposantService } from '../premier-composant-service';
+import { PremierComposantService } from '../../services/premier-composant-service';
 import { map } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, TYPE_OPTIONS } from '../../utils/api-altered';
+import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, TYPE_OPTIONS } from '../../../utils/api-altered';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Card } from '../card/card';
 
