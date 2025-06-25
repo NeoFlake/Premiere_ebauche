@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CardInterface } from '../../interfaces/card interfaces/card';
+import { CardInterface } from '../../interfaces/card/card';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class Card {
   ){}
 
   public openDetailCard(card: CardInterface) {
-    this.router.navigate(["carte", card['@id']], {state: {card: card}});
+    this.router.navigate(["carte", card.reference]);
   }
 
 }

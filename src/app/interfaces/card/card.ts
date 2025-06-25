@@ -9,6 +9,7 @@ export interface CardInterface {
     "@id": string,
     cardSet: CardSet,
     cardType: CardType,
+    cardSubTypes: Array<CardType>,
     elements: CardElements,
     id: string,
     imagePath: string,

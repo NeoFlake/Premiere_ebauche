@@ -1,3 +1,30 @@
-<div id="card-image-container">
-    
+<div id="page-container">
+    <div id="card-name-container">
+        <h1>{{ card.name }}</h1>
+    </div>
+    <div id="main-container">
+        <div id="card-image-container">
+            <div id="card-image-area">
+                <img [src]="card.imagePath" />
+            </div>
+        </div>
+        <div id="card-detail-container">
+            <div id="main-informations-container">
+                <div id="card-type-and-subtype-container">
+                    <div class="sub-container">
+                        <span>Type</span>
+                        <a href="">{{ card.cardType.name }}</a>
+                    </div>
+                    <div class="sub-container">
+                        <span>Sous Type</span>
+                        <div>
+                            @for (subType of card.cardSubTypes; track $index) {
+                                <a href="">{{ subType.name }}</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
