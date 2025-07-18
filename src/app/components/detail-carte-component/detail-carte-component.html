@@ -1,3 +1,4 @@
+@if(card != null){
 <div id="page-container">
     <div id="card-name-container">
         <h1>{{ card.name }}</h1>
@@ -12,14 +13,14 @@
             <div id="main-informations-container">
                 <div id="card-type-and-subtype-container">
                     <div class="sub-container">
-                        <span>Type</span>
-                        <a href="">{{ card.cardType.name }}</a>
+                        <span>{{ DETAIL_CARTE_HTML_TEXTE.TYPE }}</span>
+                        <a (click)="goToSearchWithType(card.cardType.reference)">{{ card.cardType.name }}</a>
                     </div>
                     <div class="sub-container">
-                        <span>Sous Type</span>
+                        <span>{{ DETAIL_CARTE_HTML_TEXTE.SUB_TYPE }}</span>
                         <div>
                             @for (subType of card.cardSubTypes; track $index) {
-                                <a href="">{{ subType.name }}</a>
+                            <a>{{ subType.name }}</a>
                             }
                         </div>
                     </div>
@@ -28,3 +29,4 @@
         </div>
     </div>
 </div>
+}

@@ -1,5 +1,6 @@
 // URL base de départ pour l'appel API
 export const BASE_URL = "https://api.altered.gg/cards?";
+export const DETAIL_SEARCH_BASE_URL = "https://api.altered.gg/cards/";
 
 // Valeurs possible pour l'appel API (consommé par le back)
 export const FACTION_API_OPTIONS: Array<string> = ["AX", "BR", "LY", "MU", "OR", "YZ"];
@@ -26,11 +27,11 @@ export const KEYWORD_API_OPTIONS: Array<string> = ["RESUPPLY",
     "ASLEEP"];
 
 // Valeurs affiché à l'utilisateur et qui correspondent à celles envoyées à l'API
-export const FACTION_USER_OPTIONS: Array<string> = ["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"];
+export const FACTION_USER_OPTIONS:  Array<string> = ["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"];
 export const RARITY_USER_OPTIONS: Array<string> = ["Commune", "Rare", "Unique"];
 export const TYPE_USER_OPTIONS: Array<string> = ["Permanent d'expédition", "Repère", "Permanent", "Jeton", "Personnage", "Héro", "Jeton de mana"];
 export const SET_USER_OPTIONS: Array<string> = ["Murmures du Labyrinthe", "Au-délà des Portes", "KickStarter", "L'Épreuve du Froid"];
-export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille",
+export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille", 
     "Aguerri",
     "Boosté",
     "Scarabot",

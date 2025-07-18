@@ -13,6 +13,35 @@
     gap: 1rem;
 }
 
+.flex-container {
+  display: flex;
+  justify-content: center;
+}
+
 .cards-container h2, #how-much-area {
     margin-left: 20px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  padding: 0.5em;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0.5em;
+  max-height: 200px;
+  width: 150px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.dropdown-content div {
+    display: block;
 }

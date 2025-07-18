@@ -92,21 +92,21 @@
             </div>
         </div>
         <!-- À factoriser -->
-        <div class="dropdown" (clickOutside)="closeDropdown()">
-            <button type="button" (click)="toggleDropdown()" class="dropdown-toggle">
-                Mots clés
-            </button>
 
-            @if (dropdownOpen) {
-            <div class="dropdown-menu">
-                <label *ngFor="let keyword of KEYWORD_OPTIONS">
-                    <input type="checkbox" [value]="keyword.value" [checked]="keywords.value.includes(keyword.value)"
-                        (change)="onKeywordToggle($event)" />
-                    {{ keyword.libelle }}
-                </label>
+        <div class="dropdown" (click)="toggleDropdown()" tabindex="0">
+            <button class="dropdown-button">Mots Clés</button>
+            <div formArrayName="keywords" class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'">
+                @for (keyword of keywords.controls; track $index) {
+                <div>
+                    <label>
+                        <input type="checkbox" [formControlName]="$index" />
+                        {{ KEYWORD_OPTIONS[$index].libelle }}
+                    </label>
+                </div>
+                }
             </div>
-            }
         </div>
+
         <div>
             <label>{{ ALT_ART_OPTION }}</label>
             <input type="checkbox" formControlName="altArt" />
@@ -144,7 +144,18 @@
     }
     <div id="card-container">
         @for (element of affichageBasique; track $index) {
-            <card [card]="element"></card>    
+        <card [card]="element"></card>
+        }
+    </div>
+    <div class="flex-container">
+        @if (totalPages.length > 1){
+        <nav class="mt-3">
+            @for(page of totalPages; track $index){
+            <button [disabled]="page === currentPage" (click)="loadPage(page)">
+                {{ page }}
+            </button>
+            }
+        </nav>
         }
     </div>
 </div>

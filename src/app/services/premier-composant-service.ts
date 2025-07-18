@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiRestAltered } from './api-rest-altered';
-import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { BASE_URL, URL_ALT_ART, URL_CARAC_FOREST, URL_CARAC_MOUNTAIN, URL_CARAC_OCEAN, URL_FACTION, URL_KEYWORD, URL_MAIN_COST, URL_NAME, URL_RARITY, URL_RECALL_COST, URL_SET, URL_TYPE } from '../../utils/api-altered';
 
 @Injectable({
@@ -12,7 +12,8 @@ export class PremierComposantService {
 
   }
 
-  public premierAppelRest(formOptions: SearchFormData, rechercheComplexe: boolean): Observable<{ totalItems: number; cards: any[] }> {
+  public premierAppelRest(formOptions: SearchFormData, rechercheComplexe: boolean):
+    Observable<{ totalPages: number; totalItems: number; cards: any[] }> {
 
     let cardList: Array<any> = [];
 
@@ -79,61 +80,42 @@ export class PremierComposantService {
       });
     }
 
-    if(formOptions.altArt){
+    if (formOptions.altArt) {
       apiRequestUrl += `${URL_ALT_ART}=true&`;
     }
 
-    if(formOptions.name.trim() !== ""){
+    if (formOptions.name.trim() !== "") {
       apiRequestUrl += `${URL_NAME}=${formOptions.name}&`;
     }
 
-    // https://api.altered.gg/cards?rarity%5B%5D=COMMON&itemsPerPage=36&locale=fr-fr
+    if (formOptions.page > 1) {
+      if (rechercheComplexe) {
+        apiRequestUrl += "&";
+      } else {
+        apiRequestUrl += "?";
+      }
+      apiRequestUrl + "page=" + formOptions.page
+    }
 
     apiRequestUrl = apiRequestUrl.slice(0, -1);
 
     return this.apiRestAltered.getAlteredResources(apiRequestUrl).pipe(
-      switchMap((data: any) => {
+      map((data: any) => {
         nbElement = data["hydra:totalItems"];
 
         this.alimenterCardArray(data["hydra:member"], cardList);
 
-        if (nbElement > 36) {
-          let appels: Array<string> = [];
-          for (let i: number = 2; i <= Math.round(nbElement / 36) + 1; ++i) {
-            let request: string = apiRequestUrl;
-            if (rechercheComplexe) {
-              request += "&";
-            } else {
-              request += "?";
-            }
-
-            appels.push(request + "page=" + i);
-          }
-
-          return forkJoin(appels.map((appel: string) => this.apiRestAltered.getAlteredResources(appel)))
-            .pipe(
-              map((datas: Array<any>) => {
-                datas.forEach((data: any) => {
-                  this.alimenterCardArray(data["hydra:member"], cardList);
-                });
-                return {
-                  totalItems: nbElement,
-                  cards: cardList
-                };
-              })
-            );
-
-        } else {
-          return of({
+          return {
+            totalPages: parseInt(data["hydra:view"]["hydra:last"].split("=")[data["hydra:view"]["hydra:last"].split("=").length - 1]),
             totalItems: nbElement,
             cards: cardList
-          });
-        }
+          };
+        
       }));
   }
 
   private alimenterCardArray(data: Array<any>, cardList: Array<any>) {
-      data.forEach((element: any) => cardList.push(element));
+    data.forEach((element: any) => cardList.push(element));
   }
 
 }

@@ -1,44 +1,48 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PremierComposantService } from '../../services/premier-composant-service';
-import { map } from 'rxjs';
+import { tap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, TYPE_OPTIONS } from '../../../utils/api-altered';
+import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS } from '../../../utils/api-altered';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Card } from '../card/card';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'premier-composant',
   imports: [CommonModule, ReactiveFormsModule, Card],
   templateUrl: './premier-composant.html',
   styleUrl: './premier-composant.css',
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class PremierComposant {
 
-  affichageBasique: Array<any> = [];
-  form: FormGroup;
+  public affichageBasique: Array<any> = [];
+  public form: FormGroup;
 
-  factions: FormArray<FormControl>;
-  rarities: FormArray<FormControl>;
-  types: FormArray<FormControl>;
-  sets: FormArray<FormControl>;
-  mainCosts: FormArray<FormControl>;
-  recallCosts: FormArray<FormControl>;
-  keywords: FormControl<Array<string>>;
-  forestCaracValues: FormArray<FormControl>;
-  mountainCaracValues: FormArray<FormControl>;
-  oceanCaracValues: FormArray<FormControl>;
+  public factions: FormArray<FormControl>;
+  public rarities: FormArray<FormControl>;
+  public types: FormArray<FormControl>;
+  public sets: FormArray<FormControl>;
+  public mainCosts: FormArray<FormControl>;
+  public recallCosts: FormArray<FormControl>;
+  public keywords: FormArray<FormControl>;
+  public forestCaracValues: FormArray<FormControl>;
+  public mountainCaracValues: FormArray<FormControl>;
+  public oceanCaracValues: FormArray<FormControl>;
 
-  altArt: FormControl<boolean>;
+  public altArt: FormControl<boolean>;
 
-  name: FormControl<string>;
+  public name: FormControl<string>;
 
-  nombresCartesTrouvees: number = 0;
-  rechercheEffectuee: boolean = false;
+  public nombresCartesTrouvees: number = 0;
+  public rechercheEffectuee: boolean = false;
+  public totalPages: Array<number> = [];
+  public currentPage: number = 1;
 
-  dropdownOpen = false;
-  selectedKeywords: string[] = [];
+  public dropdownOpen: boolean = false;
+  public selectedKeywords: Array<string> = [];
 
   // Valeur utilisé pour la lecture dans la vue
   readonly FACTION_OPTIONS = FACTION_OPTIONS;
@@ -49,7 +53,10 @@ export class PremierComposant {
   readonly NAME_OPTION = NAME_OPTION;
   readonly KEYWORD_OPTIONS = KEYWORD_OPTIONS;
 
-  constructor(private premierComposantService: PremierComposantService, private fb: FormBuilder) {
+  constructor(
+    private premierComposantService: PremierComposantService,
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute) {
 
     this.factions = this.fb.array(FACTION_OPTIONS.map(() => this.fb.control(false)));
 
@@ -66,12 +73,10 @@ export class PremierComposant {
     this.forestCaracValues = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
 
     this.mountainCaracValues = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
-    
+
     this.oceanCaracValues = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
 
-    this.keywords = this.fb.control([], {
-      nonNullable: true
-    });
+    this.keywords = this.fb.array(KEYWORD_OPTIONS.map(() => this.fb.control(false)));
 
     this.altArt = this.fb.control(false, {
       nonNullable: true
@@ -79,7 +84,7 @@ export class PremierComposant {
 
     this.name = this.fb.control("", {
       nonNullable: true
-    })
+    });
 
     this.form = this.fb.group({
       factions: this.factions,
@@ -96,33 +101,26 @@ export class PremierComposant {
       oceanCaracValues: this.oceanCaracValues,
     });
 
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      const cardType = params["cardType"];
+      if (cardType && cardType != "") {
+        this.types.controls[TYPE_API_OPTIONS.findIndex((element: string) => element == cardType)].setValue(true);
+        this.getValue();
+      }
+    });
+
   }
 
-  toggleDropdown() {
+  public loadPage(page: number){
+    this.currentPage = page;
+    this.getValue();
+  }
+
+  public toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  closeDropdown() {
-    this.dropdownOpen = false;
-  }
-
-  onKeywordToggle(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    const value = checkbox.value;
-    const current = this.keywords.value;
-
-    if (checkbox.checked) {
-      this.keywords.setValue([...current, value]);
-    } else {
-      this.keywords.setValue(current.filter(v => v !== value));
-    }
-
-    this.keywords.markAsDirty();
-    this.keywords.markAsTouched();
-    this.selectedKeywords = this.keywords.value;
-  }
-
-  getValue(): void {
+  public getValue(): void {
 
     let rechercheComplexe: boolean = false;
 
@@ -139,6 +137,7 @@ export class PremierComposant {
       forestCaracValues: [],
       mountainCaracValues: [],
       oceanCaracValues: [],
+      page: this.currentPage
     };
 
     // Récupération des valeurs formulaires pour le paramètre faction
@@ -213,19 +212,28 @@ export class PremierComposant {
       }
     });
 
-    if(this.keywords.value.length > 0) {
-      formResult.keywords = this.keywords.value;
-      rechercheComplexe === false ? rechercheComplexe = true : null;
-    }
+    KEYWORD_OPTIONS.forEach((element: CheckBoxData, i: number) => {
+
+      if (this.keywords.value[i] === true) {
+        formResult.keywords.push(element.value);
+        rechercheComplexe === false ? rechercheComplexe = true : null;
+      };
+
+    });
 
     this.premierComposantService.premierAppelRest(formResult, rechercheComplexe)
       .pipe(
-        map((data: any) => {
+        tap((data: any) => {
+          this.totalPages = [];
           // On fixe la recherche effectué à true
           this.rechercheEffectuee = true;
           // On détermine le nombre de résultat renvoyé par l'API
           this.nombresCartesTrouvees = data.totalItems;
           this.affichageBasique = data.cards;
+          console.log(this.affichageBasique);
+          for(let i: number = 1; i <= data.totalPages; ++i){
+            this.totalPages.push(i);
+          }
         }),
       )
       .subscribe();

@@ -11,4 +11,5 @@ interface SearchFormData {
     forestCaracValues: Array<number>,
     mountainCaracValues: Array<number>,
     oceanCaracValues: Array<number>,
+    page: number
 }

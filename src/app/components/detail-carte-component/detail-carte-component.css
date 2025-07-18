@@ -66,6 +66,8 @@ h1 {
 .sub-container a {
     color: blue;
     margin-right: 2%;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 img {
