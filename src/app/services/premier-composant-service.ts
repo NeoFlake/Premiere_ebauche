@@ -8,9 +8,9 @@ import { BASE_URL, URL_ALT_ART, URL_CARAC_FOREST, URL_CARAC_MOUNTAIN, URL_CARAC_
 })
 export class PremierComposantService {
 
-  constructor(private apiRestAltered: ApiRestAltered) {
+  private totalPages: number = 1;
 
-  }
+  constructor(private apiRestAltered: ApiRestAltered) { }
 
   public premierAppelRest(formOptions: SearchFormData, rechercheComplexe: boolean):
     Observable<{ totalPages: number; totalItems: number; cards: any[] }> {
@@ -94,28 +94,52 @@ export class PremierComposantService {
       } else {
         apiRequestUrl += "?";
       }
-      apiRequestUrl + "page=" + formOptions.page
+      apiRequestUrl = apiRequestUrl + "page=" + formOptions.page
+    } else {
+      apiRequestUrl = apiRequestUrl.slice(0, -1);
     }
-
-    apiRequestUrl = apiRequestUrl.slice(0, -1);
 
     return this.apiRestAltered.getAlteredResources(apiRequestUrl).pipe(
       map((data: any) => {
         nbElement = data["hydra:totalItems"];
 
-        this.alimenterCardArray(data["hydra:member"], cardList);
+        if (data["hydra:view"]["hydra:last"] !== undefined) {
+          this.totalPages = parseInt(data["hydra:view"]["hydra:last"].split("=")[data["hydra:view"]["hydra:last"].split("=").length - 1]);
+        }
 
-          return {
-            totalPages: parseInt(data["hydra:view"]["hydra:last"].split("=")[data["hydra:view"]["hydra:last"].split("=").length - 1]),
-            totalItems: nbElement,
-            cards: cardList
-          };
-        
+        this.alimenterCardArray(data["hydra:member"], cardList);
+        return {
+          totalPages: this.totalPages,
+          totalItems: nbElement,
+          cards: cardList
+        };
+
       }));
   }
 
   private alimenterCardArray(data: Array<any>, cardList: Array<any>) {
     data.forEach((element: any) => cardList.push(element));
+  }
+
+  public createPaginationDisplay(numberOfPages: number, currentPage: number): Array<number | string> {
+    const pagination: Array<number | string> = [];
+
+    if (numberOfPages <= 5) {
+      for(let i: number = 1; i <= numberOfPages; ++i){
+        pagination.push(i);
+      } 
+      return pagination;
+    }
+
+    if (currentPage <= 3) {
+      pagination.push(...[1, 2, 3, 4, 5], "...", numberOfPages);
+    } else if (currentPage >= numberOfPages - 2) {
+      pagination.push(1, "...", numberOfPages - 4, numberOfPages - 3, numberOfPages - 2, numberOfPages - 1, numberOfPages);
+    } else {
+      pagination.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", numberOfPages);
+    }
+
+    return pagination;
   }
 
 }

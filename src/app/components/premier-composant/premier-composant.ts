@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { PremierComposantService } from '../../services/premier-composant-service';
 import { tap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -13,8 +13,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   imports: [CommonModule, ReactiveFormsModule, Card],
   templateUrl: './premier-composant.html',
   styleUrl: './premier-composant.css',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.Default
+  standalone: true
 })
 export class PremierComposant {
 
@@ -38,8 +37,10 @@ export class PremierComposant {
 
   public nombresCartesTrouvees: number = 0;
   public rechercheEffectuee: boolean = false;
-  public totalPages: Array<number> = [];
+  // Permet d'afficher une pagination plus chiadée avec les inter-page qui sont innaccessible
+  public pagination: Array<number | string> = [];
   public currentPage: number = 1;
+  public totalPages: number = 1;
 
   public dropdownOpen: boolean = false;
   public selectedKeywords: Array<string> = [];
@@ -111,7 +112,19 @@ export class PremierComposant {
 
   }
 
-  public loadPage(page: number){
+  public loadPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.loadPage(this.currentPage - 1);
+    }
+  }
+
+  public loadNextPage(): void {
+    if (this.currentPage < this.pagination.length) {
+      this.loadPage(this.currentPage + 1);
+    }
+  }
+
+  public loadPage(page: number) {
     this.currentPage = page;
     this.getValue();
   }
@@ -224,20 +237,17 @@ export class PremierComposant {
     this.premierComposantService.premierAppelRest(formResult, rechercheComplexe)
       .pipe(
         tap((data: any) => {
-          this.totalPages = [];
+          this.pagination = [];
           // On fixe la recherche effectué à true
           this.rechercheEffectuee = true;
           // On détermine le nombre de résultat renvoyé par l'API
           this.nombresCartesTrouvees = data.totalItems;
-          this.affichageBasique = data.cards;
-          console.log(this.affichageBasique);
-          for(let i: number = 1; i <= data.totalPages; ++i){
-            this.totalPages.push(i);
-          }
+          this.affichageBasique = [...data.cards];
+          this.totalPages = data.totalPages;
+          this.pagination = this.premierComposantService.createPaginationDisplay(data.totalPages, this.currentPage);
         }),
       )
       .subscribe();
-
   }
 
 }
