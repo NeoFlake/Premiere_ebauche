@@ -45,6 +45,9 @@ export class PremierComposant {
   public dropdownOpen: boolean = false;
   public selectedKeywords: Array<string> = [];
 
+  // Permet de dissimuler la vue durant le chargement des cartes pour une vue plus propre :)
+  public isLoading: boolean = true;
+
   // Valeur utilisé pour la lecture dans la vue
   readonly FACTION_OPTIONS = FACTION_OPTIONS;
   readonly RARITY_OPTIONS = RARITY_OPTIONS;
@@ -114,17 +117,20 @@ export class PremierComposant {
 
   public loadPreviousPage(): void {
     if (this.currentPage > 1) {
+      this.isLoading = true;
       this.loadPage(this.currentPage - 1);
     }
   }
 
   public loadNextPage(): void {
     if (this.currentPage < this.pagination.length) {
+      this.isLoading = true;
       this.loadPage(this.currentPage + 1);
     }
   }
 
   public loadPage(page: number) {
+    this.isLoading = true;
     this.currentPage = page;
     this.getValue();
   }
@@ -245,6 +251,7 @@ export class PremierComposant {
           this.affichageBasique = [...data.cards];
           this.totalPages = data.totalPages;
           this.pagination = this.premierComposantService.createPaginationDisplay(data.totalPages, this.currentPage);
+          this.isLoading = false;
         }),
       )
       .subscribe();

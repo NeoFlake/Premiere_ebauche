@@ -124,7 +124,7 @@
 </div>
 <div class="cards-container">
     <h2>Retour de l'API Rest Altered</h2>
-    @if (rechercheEffectuee){
+    @if (rechercheEffectuee && !isLoading){
     @if(nombresCartesTrouvees > 0) {
     <div id="how-much-area">
         {{ nombresCartesTrouvees }}
