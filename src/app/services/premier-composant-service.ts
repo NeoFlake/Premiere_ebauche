@@ -95,17 +95,17 @@ export class PremierComposantService {
         apiRequestUrl += "?";
       }
       apiRequestUrl = apiRequestUrl + "page=" + formOptions.page
-    } else {
-      apiRequestUrl = apiRequestUrl.slice(0, -1);
+    } else if (apiRequestUrl[apiRequestUrl.length - 1] === "&" || apiRequestUrl[apiRequestUrl.length - 1] === "?") {
+      {
+        apiRequestUrl = apiRequestUrl.slice(0, -1);
+      }
     }
 
     return this.apiRestAltered.getAlteredResources(apiRequestUrl).pipe(
       map((data: any) => {
         nbElement = data["hydra:totalItems"];
 
-        if (data["hydra:view"]["hydra:last"] !== undefined) {
-          this.totalPages = parseInt(data["hydra:view"]["hydra:last"].split("=")[data["hydra:view"]["hydra:last"].split("=").length - 1]);
-        }
+          this.totalPages = Math.ceil(nbElement/36);
 
         this.alimenterCardArray(data["hydra:member"], cardList);
         return {
@@ -124,10 +124,13 @@ export class PremierComposantService {
   public createPaginationDisplay(numberOfPages: number, currentPage: number): Array<number | string> {
     const pagination: Array<number | string> = [];
 
+    console.log("numberOfPages", numberOfPages);
+    console.log("currentPage", currentPage);
+
     if (numberOfPages <= 5) {
-      for(let i: number = 1; i <= numberOfPages; ++i){
+      for (let i: number = 1; i <= numberOfPages; ++i) {
         pagination.push(i);
-      } 
+      }
       return pagination;
     }
 

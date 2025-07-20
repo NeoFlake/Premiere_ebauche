@@ -43,7 +43,11 @@ export class PremierComposant {
   public totalPages: number = 1;
 
   public dropdownOpen: boolean = false;
+  public dropdownTrierOpen: boolean = false;
   public selectedKeywords: Array<string> = [];
+
+  // Permet de réinitialiser la pagination si une nouvelle recherche est effectuée
+  public isNavigation: boolean = false;
 
   // Permet de dissimuler la vue durant le chargement des cartes pour une vue plus propre :)
   public isLoading: boolean = true;
@@ -70,15 +74,15 @@ export class PremierComposant {
 
     this.sets = this.fb.array(SET_OPTIONS.map(() => this.fb.control(false)));
 
-    this.mainCosts = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
+    this.mainCosts = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
 
-    this.recallCosts = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
+    this.recallCosts = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
 
-    this.forestCaracValues = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
+    this.forestCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
 
-    this.mountainCaracValues = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
+    this.mountainCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
 
-    this.oceanCaracValues = this.fb.array(Array.from({ length: 9 }, () => this.fb.control(false)));
+    this.oceanCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
 
     this.keywords = this.fb.array(KEYWORD_OPTIONS.map(() => this.fb.control(false)));
 
@@ -117,29 +121,42 @@ export class PremierComposant {
 
   public loadPreviousPage(): void {
     if (this.currentPage > 1) {
+      this.isNavigation = true;
       this.isLoading = true;
       this.loadPage(this.currentPage - 1);
     }
   }
 
   public loadNextPage(): void {
-    if (this.currentPage < this.pagination.length) {
+    if (this.currentPage <= this.pagination.length) {
+      this.isNavigation = true;
       this.isLoading = true;
       this.loadPage(this.currentPage + 1);
     }
   }
 
-  public loadPage(page: number) {
+  public loadPage(page: number): void {
+    this.isNavigation = true;
     this.isLoading = true;
     this.currentPage = page;
     this.getValue();
   }
 
-  public toggleDropdown() {
+  public toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
+  public toggleDropdownTrier(): void {
+    this.dropdownTrierOpen = !this.dropdownTrierOpen;
+  }
+
   public getValue(): void {
+
+    if (!this.isNavigation) {
+      this.currentPage = 1;
+    } else {
+      this.isNavigation = false;
+    }
 
     let rechercheComplexe: boolean = false;
 
@@ -198,35 +215,35 @@ export class PremierComposant {
 
     this.mainCosts.controls.forEach((element: FormControl<boolean>, i: number) => {
       if (element.value === true) {
-        formResult.mainCosts.push(i + 1);
+        formResult.mainCosts.push(i);
         rechercheComplexe === false ? rechercheComplexe = true : null;
       }
     });
 
     this.recallCosts.controls.forEach((element: FormControl<boolean>, i: number) => {
       if (element.value === true) {
-        formResult.recallCosts.push(i + 1);
+        formResult.recallCosts.push(i);
         rechercheComplexe === false ? rechercheComplexe = true : null;
       }
     });
 
     this.forestCaracValues.controls.forEach((element: FormControl<boolean>, i: number) => {
       if (element.value === true) {
-        formResult.forestCaracValues.push(i + 1);
+        formResult.forestCaracValues.push(i);
         rechercheComplexe === false ? rechercheComplexe = true : null;
       }
     });
 
     this.mountainCaracValues.controls.forEach((element: FormControl<boolean>, i: number) => {
       if (element.value === true) {
-        formResult.mountainCaracValues.push(i + 1);
+        formResult.mountainCaracValues.push(i);
         rechercheComplexe === false ? rechercheComplexe = true : null;
       }
     });
 
     this.oceanCaracValues.controls.forEach((element: FormControl<boolean>, i: number) => {
       if (element.value === true) {
-        formResult.oceanCaracValues.push(i + 1);
+        formResult.oceanCaracValues.push(i);
         rechercheComplexe === false ? rechercheComplexe = true : null;
       }
     });

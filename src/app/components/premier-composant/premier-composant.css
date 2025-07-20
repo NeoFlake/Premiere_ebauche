@@ -1,16 +1,21 @@
 .form-container {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .cards-container {
-    width: 99vw;
+  width: 99vw;
+}
+
+#card-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 80%;
 }
 
 .flex-container {
@@ -18,8 +23,9 @@
   justify-content: center;
 }
 
-.cards-container h2, #how-much-area {
-    margin-left: 20px;
+.cards-container h2,
+#how-much-area {
+  margin-left: 20px;
 }
 
 .dropdown {
@@ -29,6 +35,10 @@
 
 .dropdown-button {
   padding: 0.5em;
+}
+
+.mt-3 {
+  margin-top: 1%;
 }
 
 .dropdown-content {
@@ -43,5 +53,5 @@
 }
 
 .dropdown-content div {
-    display: block;
+  display: block;
 }
