@@ -3,7 +3,7 @@ import { PremierComposantService } from '../../services/premier-composant-servic
 import { tap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS } from '../../../utils/api-altered';
+import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, SORT_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS, URL_SORT_BY } from '../../../utils/api-altered';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Card } from '../card/card';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -60,6 +60,10 @@ export class PremierComposant {
   readonly ALT_ART_OPTION = ALT_ART_OPTION;
   readonly NAME_OPTION = NAME_OPTION;
   readonly KEYWORD_OPTIONS = KEYWORD_OPTIONS;
+  readonly SORT_OPTIONS = SORT_OPTIONS;
+
+  public sortTitleLibelle: string = "Trier par";
+  public sortByOption: string = "";
 
   constructor(
     private premierComposantService: PremierComposantService,
@@ -150,6 +154,15 @@ export class PremierComposant {
     this.dropdownTrierOpen = !this.dropdownTrierOpen;
   }
 
+  public orderBy(option: CheckBoxData): void {
+    this.sortTitleLibelle = option.libelle;
+    let sortBy: string = option.value.split(" ")[0];
+    let directionOfSort: string = option.value.split(" ")[1];
+    this.sortByOption = URL_SORT_BY + "[" + sortBy + "]=" + directionOfSort;
+    this.isNavigation = true;
+    this.getValue();
+  }
+
   public getValue(): void {
 
     if (!this.isNavigation) {
@@ -173,6 +186,7 @@ export class PremierComposant {
       forestCaracValues: [],
       mountainCaracValues: [],
       oceanCaracValues: [],
+      sortBy: this.sortByOption,
       page: this.currentPage
     };
 
@@ -256,6 +270,10 @@ export class PremierComposant {
       };
 
     });
+
+    if(this.sortByOption !== ""){
+      
+    }
 
     this.premierComposantService.premierAppelRest(formResult, rechercheComplexe)
       .pipe(

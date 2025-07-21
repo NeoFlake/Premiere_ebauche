@@ -55,3 +55,11 @@
 .dropdown-content div {
   display: block;
 }
+
+#sort-option-dropdown p {
+  cursor: pointer;
+}
+
+#sort-option-dropdown p:hover {
+  background-color: aqua;
+}

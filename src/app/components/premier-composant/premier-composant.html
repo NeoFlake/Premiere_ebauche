@@ -121,16 +121,11 @@
             <button type="submit">Rechercher</button>
         </div>
     </form>
-    <div class="dropdown mt-3" (click)="toggleDropdownTrier()" tabindex="0">
-        <button type="button" class="dropdown-button">Trier Par </button>
-        <div class="dropdown-content" [style.display]="dropdownTrierOpen ? 'block' : 'none'">
-            @for (keyword of keywords.controls; track $index) {
-            <div>
-                <label>
-                    <input />
-                    {{ KEYWORD_OPTIONS[$index].libelle }}
-                </label>
-            </div>
+    <div class="sort-option-dropdown-container mt-3" (click)="toggleDropdownTrier()" tabindex="0">
+        <button type="button" class="dropdown-button">{{ sortTitleLibelle }} </button>
+        <div id="sort-option-dropdown" class="dropdown-content" [style.display]="dropdownTrierOpen ? 'block' : 'none'">
+            @for (option of SORT_OPTIONS; track $index) {
+                <p (click)="orderBy(option)">{{ option.libelle }}</p>
             }
         </div>
     </div>

@@ -26,12 +26,15 @@ export const KEYWORD_API_OPTIONS: Array<string> = ["RESUPPLY",
     "FLEETING",
     "ASLEEP"];
 
+export const SORT_API_OPTIONS: Array<string> = ["collectionNumber ", "name ", "mainCost ", "recallCost "];
+export const SORT_ORDER_API_OPTIONS: Array<string> = ["ASC", "DESC"];
+
 // Valeurs affiché à l'utilisateur et qui correspondent à celles envoyées à l'API
-export const FACTION_USER_OPTIONS:  Array<string> = ["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"];
+export const FACTION_USER_OPTIONS: Array<string> = ["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"];
 export const RARITY_USER_OPTIONS: Array<string> = ["Commune", "Rare", "Unique"];
 export const TYPE_USER_OPTIONS: Array<string> = ["Permanent d'expédition", "Repère", "Permanent", "Jeton", "Personnage", "Héro", "Jeton de mana"];
 export const SET_USER_OPTIONS: Array<string> = ["Murmures du Labyrinthe", "Au-délà des Portes", "KickStarter", "L'Épreuve du Froid"];
-export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille", 
+export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille",
     "Aguerri",
     "Boosté",
     "Scarabot",
@@ -51,6 +54,8 @@ export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille",
     "Endormi"];
 export const ALT_ART_OPTION: string = "Art Alternatif";
 export const NAME_OPTION: string = "Nom";
+
+export const SORT_USER_OPTIONS: Array<string> = ["Collection Asc", "Collection Desc", "Nom A-Z", "Nom Z-A", "Mana asc", "Mana desc", "Réserve asc", "Réserve desc"];
 
 // Constructeurs permettant de relier les deux valeurs pour l'affectation aux diverses Checkbox du formulaire
 export const FACTION_OPTIONS: Array<CheckBoxData> = FACTION_USER_OPTIONS.map((element: string, i: number) => ({
@@ -78,6 +83,13 @@ export const KEYWORD_OPTIONS: Array<CheckBoxData> = KEYWORD_USER_OPTIONS.map((el
     value: KEYWORD_API_OPTIONS[i]
 } as CheckBoxData));
 
+export const SORT_OPTIONS: Array<CheckBoxData> = SORT_API_OPTIONS.flatMap((element: string, i: number) =>
+  SORT_ORDER_API_OPTIONS.map((ordererElement: string, j: number): CheckBoxData => ({
+    libelle: SORT_USER_OPTIONS[i * SORT_ORDER_API_OPTIONS.length + j],
+    value: element + ordererElement
+  }))
+);
+
 // Valeurs des options possible pour l'appel API
 export const URL_FACTION = "factions[]";
 export const URL_RARITY = "rarity[]";
@@ -91,4 +103,5 @@ export const URL_KEYWORD = "keyword[]";
 export const URL_CARAC_FOREST = "forestPower[]";
 export const URL_CARAC_MOUNTAIN = "mountainPower[]";
 export const URL_CARAC_OCEAN = "oceanPower[]";
+export const URL_SORT_BY = "order";
 export const URL_LANGUE = "locale";

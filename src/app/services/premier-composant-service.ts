@@ -88,6 +88,10 @@ export class PremierComposantService {
       apiRequestUrl += `${URL_NAME}=${formOptions.name}&`;
     }
 
+    if (formOptions.sortBy !== ""){
+      apiRequestUrl += `${formOptions.sortBy}&`;
+    }
+
     if (formOptions.page > 1) {
       if (rechercheComplexe) {
         apiRequestUrl += "&";
