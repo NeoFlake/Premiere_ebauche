@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiRestAltered } from './api-rest-altered';
 import { map, Observable, of } from 'rxjs';
 import { BASE_URL, URL_ALT_ART, URL_CARAC_FOREST, URL_CARAC_MOUNTAIN, URL_CARAC_OCEAN, URL_FACTION, URL_KEYWORD, URL_MAIN_COST, URL_NAME, URL_RARITY, URL_RECALL_COST, URL_SET, URL_TYPE } from '../../utils/api-altered';
+import { FormArray, FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -128,9 +129,6 @@ export class PremierComposantService {
   public createPaginationDisplay(numberOfPages: number, currentPage: number): Array<number | string> {
     const pagination: Array<number | string> = [];
 
-    console.log("numberOfPages", numberOfPages);
-    console.log("currentPage", currentPage);
-
     if (numberOfPages <= 5) {
       for (let i: number = 1; i <= numberOfPages; ++i) {
         pagination.push(i);
@@ -147,6 +145,37 @@ export class PremierComposantService {
     }
 
     return pagination;
+  }
+
+  public hydrateForm(arrayOfChunks: Array<Array<any>>): boolean {
+    let rechercheComplexe: boolean = false;
+    arrayOfChunks.forEach((chunk: Array<any>) => {
+      let isAdded = this.hydrateChunkOfForm(chunk[0], chunk[1], chunk[2], chunk[3]);
+      if(rechercheComplexe === false && isAdded === true){
+        rechercheComplexe = true;
+      }
+    });
+    return rechercheComplexe;
+  }
+
+  private hydrateChunkOfForm(options: Array<CheckBoxData> | FormArray<FormControl<any>>, formArray: FormArray<FormControl<any>>, savedData: Array<any>, withElement: boolean): boolean {
+    let rechercheComplexe: boolean = false;
+    if (withElement === true && Array.isArray(options)) {
+      options.forEach((element: CheckBoxData, i: number) => {
+        if (formArray.value[i] === true) {
+          savedData.push(element.value);
+          rechercheComplexe = true;
+        }
+      });
+    } else if (withElement === false && !Array.isArray(options)) {
+      options.controls.forEach((element: FormControl<boolean>, i: number) => {
+        if (element.value === true) {
+          savedData.push(element);
+          rechercheComplexe = true;
+        }
+      });
+    }
+    return rechercheComplexe;
   }
 
 }

@@ -71,25 +71,16 @@ export class PremierComposant {
     private activatedRoute: ActivatedRoute) {
 
     this.factions = this.fb.array(FACTION_OPTIONS.map(() => this.fb.control(false)));
-
     this.rarities = this.fb.array(RARITY_OPTIONS.map(() => this.fb.control(false)));
-
     this.types = this.fb.array(TYPE_OPTIONS.map(() => this.fb.control(false)));
-
     this.sets = this.fb.array(SET_OPTIONS.map(() => this.fb.control(false)));
-
     this.mainCosts = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
-
     this.recallCosts = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
-
     this.forestCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
-
     this.mountainCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
-
     this.oceanCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
-
     this.keywords = this.fb.array(KEYWORD_OPTIONS.map(() => this.fb.control(false)));
-
+    
     this.altArt = this.fb.control(false, {
       nonNullable: true
     });
@@ -190,90 +181,18 @@ export class PremierComposant {
       page: this.currentPage
     };
 
-    // Récupération des valeurs formulaires pour le paramètre faction
-    FACTION_OPTIONS.forEach((element: CheckBoxData, i: number) => {
-
-      if (this.factions.value[i] === true) {
-        formResult.factions.push(element.value);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      };
-
-    });
-
-    RARITY_OPTIONS.forEach((element: CheckBoxData, i: number) => {
-
-      if (this.rarities.value[i] === true) {
-        formResult.rarities.push(element.value);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      };
-
-    });
-
-    TYPE_OPTIONS.forEach((element: CheckBoxData, i: number) => {
-
-      if (this.types.value[i] === true) {
-        formResult.types.push(element.value);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      };
-
-    });
-
-    SET_OPTIONS.forEach((element: CheckBoxData, i: number) => {
-
-      if (this.sets.value[i] === true) {
-        formResult.sets.push(element.value);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      };
-
-    });
-
-    this.mainCosts.controls.forEach((element: FormControl<boolean>, i: number) => {
-      if (element.value === true) {
-        formResult.mainCosts.push(i);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      }
-    });
-
-    this.recallCosts.controls.forEach((element: FormControl<boolean>, i: number) => {
-      if (element.value === true) {
-        formResult.recallCosts.push(i);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      }
-    });
-
-    this.forestCaracValues.controls.forEach((element: FormControl<boolean>, i: number) => {
-      if (element.value === true) {
-        formResult.forestCaracValues.push(i);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      }
-    });
-
-    this.mountainCaracValues.controls.forEach((element: FormControl<boolean>, i: number) => {
-      if (element.value === true) {
-        formResult.mountainCaracValues.push(i);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      }
-    });
-
-    this.oceanCaracValues.controls.forEach((element: FormControl<boolean>, i: number) => {
-      if (element.value === true) {
-        formResult.oceanCaracValues.push(i);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      }
-    });
-
-    KEYWORD_OPTIONS.forEach((element: CheckBoxData, i: number) => {
-
-      if (this.keywords.value[i] === true) {
-        formResult.keywords.push(element.value);
-        rechercheComplexe === false ? rechercheComplexe = true : null;
-      };
-
-    });
-
-    if(this.sortByOption !== ""){
-      
-    }
+    rechercheComplexe = this.premierComposantService.hydrateForm([
+      [FACTION_OPTIONS, this.factions, formResult.factions, true],
+      [RARITY_OPTIONS, this.rarities, formResult.rarities, true],
+      [TYPE_OPTIONS, this.types, formResult.types, true],
+      [SET_OPTIONS, this.sets, formResult.sets, true],
+      [this.mainCosts, this.mainCosts, formResult.mainCosts, false],
+      [this.recallCosts, this.recallCosts, formResult.recallCosts, false],
+      [this.forestCaracValues, this.forestCaracValues, formResult.forestCaracValues, false],
+      [this.mountainCaracValues, this.mountainCaracValues, formResult.mountainCaracValues, false],
+      [this.oceanCaracValues, this.oceanCaracValues, formResult.oceanCaracValues, false],
+      [KEYWORD_OPTIONS, this.keywords, formResult.keywords, true]
+    ]);
 
     this.premierComposantService.premierAppelRest(formResult, rechercheComplexe)
       .pipe(
