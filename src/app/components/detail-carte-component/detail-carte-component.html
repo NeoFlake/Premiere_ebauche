@@ -20,7 +20,7 @@
                         <span>{{ DETAIL_CARTE_HTML_TEXTE.SUB_TYPE }}</span>
                         <div>
                             @for (subType of card.cardSubTypes; track $index) {
-                            <a>{{ subType.name }}</a>
+                            <a (click)="goToSearchWithSubType(subType.reference)">{{ subType.name }}</a>
                             }
                         </div>
                     </div>

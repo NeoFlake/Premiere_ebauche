@@ -1,4 +1,5 @@
 export const DETAIL_CARTE_HTML_TEXTE = {
   TYPE: "Type",
-  SUB_TYPE: 'Sous Type'
+  SUB_TYPE: 'Sous Type',
+  ATTRIBUTS: "Attributs"
 };

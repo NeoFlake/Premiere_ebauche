@@ -65,6 +65,9 @@ export class PremierComposant {
   public sortTitleLibelle: string = "Trier par";
   public sortByOption: string = "";
 
+  // Variable temporaire permettant de faire fonctionner la recherche par sous-type
+  public isSubType: string = "";
+
   constructor(
     private premierComposantService: PremierComposantService,
     private fb: FormBuilder,
@@ -80,7 +83,7 @@ export class PremierComposant {
     this.mountainCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
     this.oceanCaracValues = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
     this.keywords = this.fb.array(KEYWORD_OPTIONS.map(() => this.fb.control(false)));
-    
+
     this.altArt = this.fb.control(false, {
       nonNullable: true
     });
@@ -105,10 +108,17 @@ export class PremierComposant {
     });
 
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-      const cardType = params["cardType"];
-      if (cardType && cardType != "") {
-        this.types.controls[TYPE_API_OPTIONS.findIndex((element: string) => element == cardType)].setValue(true);
-        this.getValue();
+      switch (Object.keys(params)[0]) {
+        case "cardType":
+          this.types.controls[TYPE_API_OPTIONS.findIndex((element: string) => element == params["cardType"])].setValue(true);
+          this.getValue();
+          break;
+        case "cardSubTypes":
+          this.isSubType = params["cardSubTypes"];
+          this.getValue();
+          break;
+        default:
+          break;
       }
     });
 
@@ -169,6 +179,7 @@ export class PremierComposant {
       rarities: [],
       sets: [],
       types: [],
+      subTypes: this.isSubType,
       altArt: this.altArt.value,
       name: this.name.value,
       mainCosts: [],
@@ -206,6 +217,8 @@ export class PremierComposant {
           this.totalPages = data.totalPages;
           this.pagination = this.premierComposantService.createPaginationDisplay(data.totalPages, this.currentPage);
           this.isLoading = false;
+          // On réinitialise le paramètre permettant de rechercher par sous-type pour éviter de faire doublon éternel
+          this.isSubType = "";
         }),
       )
       .subscribe();

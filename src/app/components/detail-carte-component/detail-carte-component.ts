@@ -28,7 +28,7 @@ export class DetailCarteComponent {
       tap((card: CardDetail) => {
 
         this.card = card;
-
+        console.log("card", card);
       })
     ).subscribe();
   }
@@ -38,7 +38,7 @@ export class DetailCarteComponent {
   }
 
   public goToSearchWithSubType(subType: string): void {
-    this.router.navigate(['/'], { queryParams: { subCardTypes: subType } });
+    this.router.navigate(['/'], { queryParams: { cardSubTypes: subType } });
   }
 
 }

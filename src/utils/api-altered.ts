@@ -94,6 +94,7 @@ export const SORT_OPTIONS: Array<CheckBoxData> = SORT_API_OPTIONS.flatMap((eleme
 export const URL_FACTION = "factions[]";
 export const URL_RARITY = "rarity[]";
 export const URL_TYPE = "cardType[]";
+export const URL_SUB_TYPE = "cardSubTypes[]";
 export const URL_SET = "cardSet[]";
 export const URL_ALT_ART = "altArt";
 export const URL_NAME = "query";

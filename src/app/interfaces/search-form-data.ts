@@ -2,6 +2,7 @@ interface SearchFormData {
     factions: Array<string>,
     rarities: Array<string>,
     types: Array<string>,
+    subTypes: string,
     sets: Array<string>,
     altArt: boolean,
     name: string,
