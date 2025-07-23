@@ -51,10 +51,10 @@ export class PremierComposantService {
         apiRequestUrl += "?";
       }
       apiRequestUrl = apiRequestUrl + "page=" + formOptions.page
-    } else if (apiRequestUrl[apiRequestUrl.length - 1] === "&" || apiRequestUrl[apiRequestUrl.length - 1] === "?") {
-      {
-        apiRequestUrl = apiRequestUrl.slice(0, -1);
-      }
+    }
+
+    if (apiRequestUrl[apiRequestUrl.length - 1] === "&" || apiRequestUrl[apiRequestUrl.length - 1] === "?") {
+      apiRequestUrl = apiRequestUrl.slice(0, -1);
     }
 
     return this.apiRestAltered.getAlteredResources(apiRequestUrl).pipe(
@@ -140,13 +140,13 @@ export class PremierComposantService {
   private buildChunkOfApiUrl(formGroup: Array<string | number> | string, urlParams: string, isSoloElement: boolean): string {
     let chunkOfApiUrl: string = "";
     if (isSoloElement === true && Array.isArray(formGroup)) {
-      if(formGroup.length > 0){
-        formGroup.forEach((element: string|number) => {
+      if (formGroup.length > 0) {
+        formGroup.forEach((element: string | number) => {
           chunkOfApiUrl += `${urlParams}=${element}&`;
         });
       }
-    } else if (isSoloElement === false && !Array.isArray(formGroup)){
-      if(formGroup.trim() !== ""){
+    } else if (isSoloElement === false && !Array.isArray(formGroup)) {
+      if (formGroup.trim() !== "") {
         chunkOfApiUrl += `${urlParams}=${formGroup}&`;
       }
     }
