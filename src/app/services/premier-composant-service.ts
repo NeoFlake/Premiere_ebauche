@@ -21,79 +21,26 @@ export class PremierComposantService {
     let apiRequestUrl: string = BASE_URL;
     let nbElement: number;
 
-    if (formOptions.factions.length > 0) {
-      formOptions.factions.forEach((faction: string) => {
-        apiRequestUrl += `${URL_FACTION}=${faction}&`;
-      });
-    }
-
-    if (formOptions.rarities.length > 0) {
-      formOptions.rarities.forEach((rarity: string) => {
-        apiRequestUrl += `${URL_RARITY}=${rarity}&`;
-      });
-    }
-
-    if (formOptions.types.length > 0) {
-      formOptions.types.forEach((type: string) => {
-        apiRequestUrl += `${URL_TYPE}=${type}&`;
-      });
-    }
-
-    if (formOptions.subTypes.trim() !== "") {
-      apiRequestUrl += `${URL_SUB_TYPE}=${formOptions.subTypes}&`;
-    }
-
-    if (formOptions.sets.length > 0) {
-      formOptions.sets.forEach((set: string) => {
-        apiRequestUrl += `${URL_SET}=${set}&`;
-      });
-    }
-
-    if (formOptions.mainCosts.length > 0) {
-      formOptions.mainCosts.forEach((mainCost: number) => {
-        apiRequestUrl += `${URL_MAIN_COST}=${mainCost}&`;
-      });
-    }
-
-    if (formOptions.recallCosts.length > 0) {
-      formOptions.recallCosts.forEach((recallCost: number) => {
-        apiRequestUrl += `${URL_RECALL_COST}=${recallCost}&`;
-      });
-    }
-
-    if (formOptions.forestCaracValues.length > 0) {
-      formOptions.forestCaracValues.forEach((forestCaracValue: number) => {
-        apiRequestUrl += `${URL_CARAC_FOREST}=${forestCaracValue}&`;
-      });
-    }
-
-    if (formOptions.mountainCaracValues.length > 0) {
-      formOptions.mountainCaracValues.forEach((mountainCaracValue: number) => {
-        apiRequestUrl += `${URL_CARAC_MOUNTAIN}=${mountainCaracValue}&`;
-      });
-    }
-
-    if (formOptions.oceanCaracValues.length > 0) {
-      formOptions.oceanCaracValues.forEach((oceanCaracValue: number) => {
-        apiRequestUrl += `${URL_CARAC_OCEAN}=${oceanCaracValue}&`;
-      });
-    }
-
-    if (formOptions.keywords.length > 0) {
-      formOptions.keywords.forEach((keyword: string) => {
-        apiRequestUrl += `${URL_KEYWORD}=${keyword}&`;
-      });
-    }
+    apiRequestUrl += this.buildApiUrl([
+      [formOptions.factions, URL_FACTION, true],
+      [formOptions.rarities, URL_RARITY, true],
+      [formOptions.types, URL_TYPE, true],
+      [formOptions.subTypes, URL_SUB_TYPE, false],
+      [formOptions.sets, URL_SET, true],
+      [formOptions.mainCosts, URL_MAIN_COST, true],
+      [formOptions.recallCosts, URL_RECALL_COST, true],
+      [formOptions.forestCaracValues, URL_CARAC_FOREST, true],
+      [formOptions.mountainCaracValues, URL_CARAC_MOUNTAIN, true],
+      [formOptions.oceanCaracValues, URL_CARAC_OCEAN, true],
+      [formOptions.keywords, URL_KEYWORD, true],
+      [formOptions.name, URL_NAME, false],
+    ]);
 
     if (formOptions.altArt) {
       apiRequestUrl += `${URL_ALT_ART}=true&`;
     }
 
-    if (formOptions.name.trim() !== "") {
-      apiRequestUrl += `${URL_NAME}=${formOptions.name}&`;
-    }
-
-    if (formOptions.sortBy !== ""){
+    if (formOptions.sortBy !== "") {
       apiRequestUrl += `${formOptions.sortBy}&`;
     }
 
@@ -114,7 +61,7 @@ export class PremierComposantService {
       map((data: any) => {
         nbElement = data["hydra:totalItems"];
 
-          this.totalPages = Math.ceil(nbElement/36);
+        this.totalPages = Math.ceil(nbElement / 36);
 
         this.alimenterCardArray(data["hydra:member"], cardList);
         return {
@@ -155,7 +102,7 @@ export class PremierComposantService {
     let rechercheComplexe: boolean = false;
     arrayOfChunks.forEach((chunk: Array<any>) => {
       let isAdded = this.hydrateChunkOfForm(chunk[0], chunk[1], chunk[2], chunk[3]);
-      if(rechercheComplexe === false && isAdded === true){
+      if (rechercheComplexe === false && isAdded === true) {
         rechercheComplexe = true;
       }
     });
@@ -180,6 +127,30 @@ export class PremierComposantService {
       });
     }
     return rechercheComplexe;
+  }
+
+  private buildApiUrl(arrayOfChunks: Array<Array<any>>): string {
+    let apiUrl: string = "";
+    arrayOfChunks.forEach((chunk: Array<any>) => {
+      apiUrl += this.buildChunkOfApiUrl(chunk[0], chunk[1], chunk[2]);
+    });
+    return apiUrl;
+  }
+
+  private buildChunkOfApiUrl(formGroup: Array<string | number> | string, urlParams: string, isSoloElement: boolean): string {
+    let chunkOfApiUrl: string = "";
+    if (isSoloElement === true && Array.isArray(formGroup)) {
+      if(formGroup.length > 0){
+        formGroup.forEach((element: string|number) => {
+          chunkOfApiUrl += `${urlParams}=${element}&`;
+        });
+      }
+    } else if (isSoloElement === false && !Array.isArray(formGroup)){
+      if(formGroup.trim() !== ""){
+        chunkOfApiUrl += `${urlParams}=${formGroup}&`;
+      }
+    }
+    return chunkOfApiUrl;
   }
 
 }

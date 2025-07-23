@@ -6,6 +6,38 @@ export const DETAIL_SEARCH_BASE_URL = "https://api.altered.gg/cards/";
 export const FACTION_API_OPTIONS: Array<string> = ["AX", "BR", "LY", "MU", "OR", "YZ"];
 export const RARITY_API_OPTIONS: Array<string> = ["COMMON", "RARE", "UNIQUE"];
 export const TYPE_API_OPTIONS: Array<string> = ["EXPEDITION_PERMANENT", "LANDMARK_PERMANENT", "PERMANENT", "TOKEN", "CHARACTER", "HERO", "TOKEN_MANA"];
+export const SUB_TYPE_API_OPTIONS: Array<string> = [
+    "ADVENTURER",
+    "ANIMAL",
+    "APPRENTICE",
+    "ARTIST",
+    "BOON",
+    "BUREAUCRAT",
+    "CITIZEN",
+    "COMPANION",
+    "CONJURATION",
+    "DEITY",
+    "DISRUPTION",
+    "DRAGON",
+    "DRUID",
+    "FAIRY",
+    "GEAR",
+    "LANDMARK",
+    "LEVIATHAN",
+    "MAGE",
+    "MANEUVER",
+    "MESSENGER",
+    "NOBLE",
+    "PLANT",
+    "ROBOT",
+    "SCHOLAR",
+    "SOLDIER",
+    "SONG",
+    "SPIRIT",
+    "TITAN",
+    "TRAINER"
+];
+
 export const SET_API_OPTIONS: Array<string> = ["BISE", "CORE", "COREKS", "ALIZE"];
 export const KEYWORD_API_OPTIONS: Array<string> = ["RESUPPLY",
     "SEASONED",
@@ -33,6 +65,37 @@ export const SORT_ORDER_API_OPTIONS: Array<string> = ["ASC", "DESC"];
 export const FACTION_USER_OPTIONS: Array<string> = ["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"];
 export const RARITY_USER_OPTIONS: Array<string> = ["Commune", "Rare", "Unique"];
 export const TYPE_USER_OPTIONS: Array<string> = ["Permanent d'expédition", "Repère", "Permanent", "Jeton", "Personnage", "Héro", "Jeton de mana"];
+export const SUB_TYPE_USER_OPTIONS: Array<string> = [
+    "Aventurier",
+    "Animal",
+    "Apprenti",
+    "Artiste",
+    "Bénédiction",
+    "Bureaucrate",
+    "Citoyen",
+    "Compagnion",
+    "Conjuration",
+    "Divinité",
+    "Interférence",
+    "Dragon",
+    "Druide",
+    "Fée",
+    "Matos",
+    "Repère",
+    "Lévihatan",
+    "Mage",
+    "Manoeuvre",
+    "Émissaire",
+    "Noble",
+    "Plante",
+    "Robot",
+    "Érudit",
+    "Soldat",
+    "Chant",
+    "Esprit",
+    "Titan",
+    "Mentor"
+];
 export const SET_USER_OPTIONS: Array<string> = ["Murmures du Labyrinthe", "Au-délà des Portes", "KickStarter", "L'Épreuve du Froid"];
 export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille",
     "Aguerri",
@@ -71,6 +134,11 @@ export const RARITY_OPTIONS: Array<CheckBoxData> = RARITY_USER_OPTIONS.map((elem
 export const TYPE_OPTIONS: Array<CheckBoxData> = TYPE_USER_OPTIONS.map((element: string, i: number) => ({
     libelle: element,
     value: TYPE_API_OPTIONS[i]
+} as CheckBoxData));
+
+export const SUB_TYPE_OPTIONS: Array<CheckBoxData> = SUB_TYPE_USER_OPTIONS.map((element: string, i: number) => ({
+    libelle: element,
+    value: SUB_TYPE_API_OPTIONS[i]
 } as CheckBoxData));
 
 export const SET_OPTIONS: Array<CheckBoxData> = SET_USER_OPTIONS.map((element: string, i: number) => ({

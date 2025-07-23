@@ -31,6 +31,15 @@
             </label>
             }
         </div>
+        <div>
+            <span>Sous-Types: </span>
+            <select formControlName="subTypes">
+                <option value=""></option>
+                @for (subType of SUB_TYPE_OPTIONS; track $index) {
+                    <option [value]="subType.value">{{ subType.libelle }}</option>
+                }
+            </select>
+        </div>
         <!-- À factoriser -->
         <div formArrayName="sets">
             <span>Sets : </span>

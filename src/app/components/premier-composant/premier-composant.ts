@@ -3,7 +3,7 @@ import { PremierComposantService } from '../../services/premier-composant-servic
 import { tap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, SORT_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS, URL_SORT_BY } from '../../../utils/api-altered';
+import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, SORT_OPTIONS, SUB_TYPE_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS, URL_SORT_BY } from '../../../utils/api-altered';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Card } from '../card/card';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -23,6 +23,7 @@ export class PremierComposant {
   public factions: FormArray<FormControl>;
   public rarities: FormArray<FormControl>;
   public types: FormArray<FormControl>;
+  public subTypes: FormControl<string>;
   public sets: FormArray<FormControl>;
   public mainCosts: FormArray<FormControl>;
   public recallCosts: FormArray<FormControl>;
@@ -56,6 +57,7 @@ export class PremierComposant {
   readonly FACTION_OPTIONS = FACTION_OPTIONS;
   readonly RARITY_OPTIONS = RARITY_OPTIONS;
   readonly TYPE_OPTIONS = TYPE_OPTIONS;
+  readonly SUB_TYPE_OPTIONS = SUB_TYPE_OPTIONS;
   readonly SET_OPTIONS = SET_OPTIONS;
   readonly ALT_ART_OPTION = ALT_ART_OPTION;
   readonly NAME_OPTION = NAME_OPTION;
@@ -65,9 +67,6 @@ export class PremierComposant {
   public sortTitleLibelle: string = "Trier par";
   public sortByOption: string = "";
 
-  // Variable temporaire permettant de faire fonctionner la recherche par sous-type
-  public isSubType: string = "";
-
   constructor(
     private premierComposantService: PremierComposantService,
     private fb: FormBuilder,
@@ -76,6 +75,9 @@ export class PremierComposant {
     this.factions = this.fb.array(FACTION_OPTIONS.map(() => this.fb.control(false)));
     this.rarities = this.fb.array(RARITY_OPTIONS.map(() => this.fb.control(false)));
     this.types = this.fb.array(TYPE_OPTIONS.map(() => this.fb.control(false)));
+    this.subTypes = this.fb.control("", {
+      nonNullable: true
+    });
     this.sets = this.fb.array(SET_OPTIONS.map(() => this.fb.control(false)));
     this.mainCosts = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
     this.recallCosts = this.fb.array(Array.from({ length: 11 }, () => this.fb.control(false)));
@@ -96,6 +98,7 @@ export class PremierComposant {
       factions: this.factions,
       rarities: this.rarities,
       types: this.types,
+      subTypes: this.subTypes,
       sets: this.sets,
       altArt: this.altArt,
       name: this.name,
@@ -114,7 +117,7 @@ export class PremierComposant {
           this.getValue();
           break;
         case "cardSubTypes":
-          this.isSubType = params["cardSubTypes"];
+          this.subTypes.setValue(params["cardSubTypes"]);
           this.getValue();
           break;
         default:
@@ -179,7 +182,7 @@ export class PremierComposant {
       rarities: [],
       sets: [],
       types: [],
-      subTypes: this.isSubType,
+      subTypes: this.subTypes.value,
       altArt: this.altArt.value,
       name: this.name.value,
       mainCosts: [],
@@ -217,8 +220,6 @@ export class PremierComposant {
           this.totalPages = data.totalPages;
           this.pagination = this.premierComposantService.createPaginationDisplay(data.totalPages, this.currentPage);
           this.isLoading = false;
-          // On réinitialise le paramètre permettant de rechercher par sous-type pour éviter de faire doublon éternel
-          this.isSubType = "";
         }),
       )
       .subscribe();
