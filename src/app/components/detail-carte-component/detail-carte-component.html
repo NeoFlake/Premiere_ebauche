@@ -39,7 +39,8 @@
                                     }
                                 </p>
                             </div>
-                            <div [style.background-color]="getRecallCostColor(card.mainFaction.reference)" class="attribute-cost-area recall-cost">
+                            <div [style.background-color]="getRecallCostColor(card.mainFaction.reference)"
+                                class="attribute-cost-area recall-cost">
                                 <p (click)="goToSearchWithType(card.cardType.reference)">
                                     @for (text of card.elements.RECALL_COST | goldenText; track $index) {
                                     <span [class.golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
@@ -77,17 +78,15 @@
                     </div>
                 </div>
                 <div class="card-type-and-subtype-container">
-                    <div class="sub-container">
-                        <span>{{ DETAIL_CARTE_HTML_TEXTE.TYPE }}</span>
-                        <a (click)="goToSearchWithType(card.cardType.reference)">{{ card.cardType.name }}</a>
-                    </div>
-                    <div class="sub-container">
-                        <span>{{ DETAIL_CARTE_HTML_TEXTE.SUB_TYPE }}</span>
-                        <div>
-                            @for (subType of card.cardSubTypes; track $index) {
-                            <a (click)="goToSearchWithSubType(subType.reference)">{{ subType.name }}</a>
+                    <div class="effect-container">
+                        <span>{{ DETAIL_CARTE_HTML_TEXTE.MAINT_EFFECT }}</span>
+                        <p (click)="goToSearchWithType(card.cardType.reference)">
+                            @for (text of card.elements.MAIN_EFFECT | goldenText; track $index) {
+                            <span [class.golden-text]="text.isGold">{{
+                                text.text
+                                }}</span>
                             }
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@ export class DetailCarteComponent {
     const id = this.route.snapshot.paramMap.get('id');
     this.http.get<CardDetail>(`${DETAIL_SEARCH_BASE_URL}${id}`).pipe(
       tap((card: CardDetail) => {
-
+        console.log(card);
         this.card = card;
       })
     ).subscribe();
@@ -35,7 +35,6 @@ export class DetailCarteComponent {
 
   public getRecallCostColor(faction: string): string {
     let backgroundColor: string = "grey";
-    console.log(faction);
     switch(faction){
       case "AX":
         backgroundColor = "rgb(131, 77, 54)";

@@ -4,6 +4,6 @@ export interface CardElements {
     MAIN_COST: string,
     MOUNTAIN_POWER: string,
     OCEAN_POWER: string,
-    RECALL_COST: string
-
+    RECALL_COST: string,
+    MAIN_EFFECT: string
 }
