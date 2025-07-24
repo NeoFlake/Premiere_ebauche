@@ -1,5 +1,6 @@
 export const DETAIL_CARTE_HTML_TEXTE = {
-  TYPE: "Type",
-  SUB_TYPE: 'Sous Type',
-  ATTRIBUTS: "Attributs"
+  TYPE: "TYPE",
+  SUB_TYPE: 'SOUS-TYPE',
+  ATTRIBUTS: "ATTRIBUTS",
+  MAINT_EFFECT: "EFFET PRINCIPAL"
 };

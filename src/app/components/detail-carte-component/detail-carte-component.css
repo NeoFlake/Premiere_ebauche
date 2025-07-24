@@ -46,19 +46,32 @@ h1 {
     background-color: bisque;
 }
 
-#card-type-and-subtype-container {
+.card-type-and-subtype-container {
     display: flex;
     height: 100px;
 }
 
-.sub-container{
+.attribute-container {
     width: 49.5%;
     display: flex;
     flex-direction: column;
     padding: 2% 0 0 2%;
 }
 
-.sub-container span {
+.attribute-sub-container {
+    display: flex;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.sub-container {
+    width: 49.5%;
+    display: flex;
+    flex-direction: column;
+    padding: 2% 0 0 2%;
+}
+
+.sub-container span, .attribute-container span {
     margin-bottom: 2%;
     font-weight: bold;
 }
@@ -75,4 +88,54 @@ img {
     border-radius: 2.5%;
     object-fit: cover;
     box-shadow: 5px 5px 3px rgba(0, 123, 255, 0.3);
+}
+
+.golden-text {
+    color: gold;
+    font-weight: bold;
+}
+
+.white-text {
+    color: white;
+}
+
+.attribute-cost-area {
+    width: 11%;
+    height: 71%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1px;
+    border-radius: 75%;
+    cursor: pointer;
+    margin-right: 2%;
+}
+
+.attribute-area {
+    min-width: 15%;
+    max-height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 1%;
+    margin-right: 2%;
+}
+
+.forest {
+    background-color: rgb(146,176,81);
+}
+
+.mountain {
+    background-color:rgb(188,128,83);
+}
+
+.ocean {
+    background-color: rgb(102,115,163);
+}
+
+.main-cost {
+    background-color: rgb(108,172,211);
 }
