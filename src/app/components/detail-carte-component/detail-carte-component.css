@@ -154,3 +154,7 @@ img {
 .main-cost {
     background-color: rgb(108, 172, 211);
 }
+
+.altered-icon {
+  font-family: 'AlteredIcons', sans-serif;
+}
