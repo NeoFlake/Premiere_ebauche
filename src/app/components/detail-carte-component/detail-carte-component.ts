@@ -6,11 +6,11 @@ import { CardDetail } from '../../interfaces/card/card-details';
 import { DETAIL_SEARCH_BASE_URL, URL_TYPE } from '../../../utils/api-altered';
 import { DETAIL_CARTE_HTML_TEXTE } from '../../../utils/text-constantes';
 import { GoldenTextPipe } from '../../pipes/golden-text-pipe';
-import { TextIconParserPipe } from "../../pipes/text-icon-parser-pipe";
+import { TextParserPipe } from "../../pipes/text-parser-pipe";
 
 @Component({
   selector: 'detail-carte-component',
-  imports: [GoldenTextPipe, TextIconParserPipe],
+  imports: [GoldenTextPipe, TextParserPipe],
   templateUrl: './detail-carte-component.html',
   styleUrl: './detail-carte-component.css'
 })

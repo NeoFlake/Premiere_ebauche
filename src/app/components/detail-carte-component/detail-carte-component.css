@@ -13,7 +13,6 @@
 
 h1 {
     font-size: 4rem;
-    font-family: sans-serif;
 }
 
 #main-container {
@@ -157,4 +156,8 @@ img {
 
 .altered-icon {
   font-family: 'AlteredIcons', sans-serif;
+}
+
+.standard-text {
+  font-family: 'AlteredStandard', sans-serif;
 }
