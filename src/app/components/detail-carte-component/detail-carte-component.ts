@@ -20,6 +20,8 @@ export class DetailCarteComponent {
 
   public readonly DETAIL_CARTE_HTML_TEXTE = DETAIL_CARTE_HTML_TEXTE;
 
+  public readonly CHARACTER: string = "CHARACTER";
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,

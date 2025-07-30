@@ -48,6 +48,7 @@
                                     }
                                 </p>
                             </div>
+                            @if (card.cardType.reference === CHARACTER) {
                             <div class="attribute-area forest">
                                 <p (click)="goToSearchWithType(card.cardType.reference)">
                                     @for (text of card.elements.FOREST_POWER | goldenText; track $index) {
@@ -74,6 +75,7 @@
                                     }
                                 </p>
                             </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -82,14 +84,12 @@
                         <span>{{ DETAIL_CARTE_HTML_TEXTE.MAIN_EFFECT }}</span>
                         <p (click)="goToSearchWithType(card.cardType.reference)">
                             @for (text of card.elements.MAIN_EFFECT | goldenText; track $index) {
-                            <span [class.golden-text]="text.isGold"
-                                [innerHTML]="text.text | textParser"></span>
+                            <span [class.golden-text]="text.isGold" [innerHTML]="text.text | textParser"></span>
                             }
                         </p>
                         <p (click)="goToSearchWithType(card.cardType.reference)">
                             @for (text of card.elements.ECHO_EFFECT | goldenText; track $index) {
-                            <span [class.golden-text]="text.isGold"
-                                [innerHTML]="text.text | textParser"></span>
+                            <span [class.golden-text]="text.isGold" [innerHTML]="text.text | textParser"></span>
                             }
                         </p>
                     </div>
