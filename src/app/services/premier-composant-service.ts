@@ -121,7 +121,7 @@ export class PremierComposantService {
     } else if (withElement === false && !Array.isArray(options)) {
       options.controls.forEach((element: FormControl<boolean>, i: number) => {
         if (element.value === true) {
-          savedData.push(element);
+          savedData.push(i);
           rechercheComplexe = true;
         }
       });

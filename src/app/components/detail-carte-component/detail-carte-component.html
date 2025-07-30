@@ -79,9 +79,15 @@
                 </div>
                 <div class="card-type-and-subtype-container">
                     <div class="effect-container">
-                        <span>{{ DETAIL_CARTE_HTML_TEXTE.MAINT_EFFECT }}</span>
+                        <span>{{ DETAIL_CARTE_HTML_TEXTE.MAIN_EFFECT }}</span>
                         <p (click)="goToSearchWithType(card.cardType.reference)">
                             @for (text of card.elements.MAIN_EFFECT | goldenText; track $index) {
+                            <span [class.golden-text]="text.isGold"
+                                [innerHTML]="text.text | textParser"></span>
+                            }
+                        </p>
+                        <p (click)="goToSearchWithType(card.cardType.reference)">
+                            @for (text of card.elements.ECHO_EFFECT | goldenText; track $index) {
                             <span [class.golden-text]="text.isGold"
                                 [innerHTML]="text.text | textParser"></span>
                             }

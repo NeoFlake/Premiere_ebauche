@@ -26,13 +26,15 @@ export class TextParserPipe implements PipeTransform {
       "{9}": "\ue021",
       "{X}": "\ue02c",
       "{H}": "\ue023",
+      "{h}": "\ue023",
       "{R}": "\ue024",
       "{J}": "\ue026",
       "{D}": "\ue029",
-      "{F}": "\ue037",
+      "{V}": "\ue037",
       "{M}": "\ue025",
       "{O}": "\ue02d",
-      "{T}": "\ue027"
+      "{T}": "\ue027",
+      "{I}": "\ue02f"
     };
 
     Object.entries(iconMap).forEach(([key, icon]) => {
