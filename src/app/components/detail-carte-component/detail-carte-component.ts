@@ -7,10 +7,11 @@ import { DETAIL_SEARCH_BASE_URL, URL_TYPE } from '../../../utils/api-altered';
 import { DETAIL_CARTE_HTML_TEXTE } from '../../../utils/text-constantes';
 import { GoldenTextPipe } from '../../pipes/golden-text-pipe';
 import { TextParserPipe } from "../../pipes/text-parser-pipe";
+import { FactionParserPipe } from "../../pipes/faction-parser-pipe";
 
 @Component({
   selector: 'detail-carte-component',
-  imports: [GoldenTextPipe, TextParserPipe],
+  imports: [GoldenTextPipe, TextParserPipe, FactionParserPipe],
   templateUrl: './detail-carte-component.html',
   styleUrl: './detail-carte-component.css'
 })
@@ -30,7 +31,6 @@ export class DetailCarteComponent {
     const id = this.route.snapshot.paramMap.get('id');
     this.http.get<CardDetail>(`${DETAIL_SEARCH_BASE_URL}${id}`).pipe(
       tap((card: CardDetail) => {
-        console.log(card);
         this.card = card;
       })
     ).subscribe();
@@ -38,7 +38,7 @@ export class DetailCarteComponent {
 
   public getRecallCostColor(faction: string): string {
     let backgroundColor: string = "grey";
-    switch(faction){
+    switch (faction) {
       case "AX":
         backgroundColor = "rgb(131, 77, 54)";
         break;
@@ -61,12 +61,9 @@ export class DetailCarteComponent {
     return backgroundColor;
   }
 
-  public goToSearchWithType(type: string): void {
-    this.router.navigate(['/'], { queryParams: { cardType: type } });
-  }
-
-  public goToSearchWithSubType(subType: string): void {
-    this.router.navigate(['/'], { queryParams: { cardSubTypes: subType } });
+  public goToSearch(wichOne: string, research: string) {
+    const query = { [wichOne]: research.replace(/#/g, '') };
+    this.router.navigate(['/'], { queryParams: query });
   }
 
 }

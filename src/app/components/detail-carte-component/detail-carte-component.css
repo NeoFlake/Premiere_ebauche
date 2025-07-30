@@ -16,7 +16,6 @@ h1 {
 }
 
 #main-container {
-    width: 100%;
     display: flex;
 }
 
@@ -27,7 +26,6 @@ h1 {
 }
 
 #card-detail-container {
-    height: 500px;
     width: 70%;
 }
 
@@ -39,7 +37,7 @@ h1 {
 }
 
 #main-informations-container {
-    height: 500px;
+    height:450px;
     width: 50%;
     margin-top: 5rem;
     background-color: rgb(236, 235, 232);
@@ -48,6 +46,30 @@ h1 {
 .card-type-and-subtype-container {
     display: flex;
     height: 100px;
+}
+
+.title-container>div:first-child {
+    font-size: 20px;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+.title-container>div:last-child {
+    font-size: 30px;
+    margin-right: 15px;
+    margin-top: 8px;
+}
+
+.title-container {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+hr {
+    margin: 0 15px;
+    background-color: grey;
 }
 
 .attribute-container {

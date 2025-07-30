@@ -113,11 +113,31 @@ export class PremierComposant {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       switch (Object.keys(params)[0]) {
         case "cardType":
-          this.types.controls[TYPE_API_OPTIONS.findIndex((element: string) => element == params["cardType"])].setValue(true);
+          this.types.controls[TYPE_API_OPTIONS.findIndex((element: string) => element === params["cardType"])].setValue(true);
           this.getValue();
           break;
         case "cardSubTypes":
           this.subTypes.setValue(params["cardSubTypes"]);
+          this.getValue();
+          break;
+        case "mainCost":
+          this.mainCosts.controls[params["mainCost"]].setValue(true);
+          this.getValue();
+          break;
+        case "recallCost":
+          this.recallCosts.controls[params["recallCost"]].setValue(true);
+          this.getValue();
+          break;
+        case "forestCaracValues":
+          this.forestCaracValues.controls[params["forestCaracValues"]].setValue(true);
+          this.getValue();
+          break;
+        case "mountainCaracValues":
+          this.mountainCaracValues.controls[params["mountainCaracValues"]].setValue(true);
+          this.getValue();
+          break;
+        case "oceanCaracValues":
+          this.oceanCaracValues.controls[params["oceanCaracValues"]].setValue(true);
           this.getValue();
           break;
         default:
