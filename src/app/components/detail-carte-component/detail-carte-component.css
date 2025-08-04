@@ -1,5 +1,6 @@
 #page-container {
-    width: 100vw;
+    width: 80vw;
+    margin-left: 10vw;
 }
 
 #card-name-container {
@@ -46,7 +47,7 @@ h1 {
 
 .informations-container {
     background-color: rgb(236, 235, 232);
-    width: 50%;
+    width: 70%;
 }
 
 .card-type-and-subtype-container {
@@ -162,7 +163,7 @@ div, h1, p, span {
 }
 
 .attribute-cost-area {
-    width: 12%;
+    width: 11.25%;
     height: 71%;
     display: flex;
     justify-content: center;
@@ -174,7 +175,7 @@ div, h1, p, span {
 }
 
 .attribute-cost-area.recall-cost {
-    width: 12.25%;
+    width: 11.40%;
 }
 
 .empty-cell {
@@ -188,7 +189,7 @@ div, h1, p, span {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 2px;
+    padding-top: 2.5px;
     border-radius: 10px;
     cursor: pointer;
     margin-left: 1%;

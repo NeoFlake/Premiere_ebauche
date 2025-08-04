@@ -14,7 +14,7 @@
 .variante-container {
     height: 400px;
     cursor: pointer;
-    margin-left: 45px;
+    margin-left: 3.5vw;
     position: relative;
     transition: bottom 0.3s ease;
     bottom: 0;
