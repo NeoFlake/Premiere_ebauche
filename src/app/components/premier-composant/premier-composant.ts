@@ -3,7 +3,7 @@ import { PremierComposantService } from '../../services/premier-composant-servic
 import { tap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_OPTIONS, SET_OPTIONS, SORT_OPTIONS, SUB_TYPE_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS, URL_SORT_BY } from '../../../utils/api-altered';
+import { ALT_ART_OPTION, FACTION_OPTIONS, KEYWORD_OPTIONS, NAME_OPTION, RARITY_API_OPTIONS, RARITY_OPTIONS, SET_API_OPTIONS, SET_OPTIONS, SORT_OPTIONS, SUB_TYPE_OPTIONS, TYPE_API_OPTIONS, TYPE_OPTIONS, URL_SORT_BY } from '../../../utils/api-altered';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Card } from '../card/card';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -138,6 +138,14 @@ export class PremierComposant {
           break;
         case "oceanCaracValues":
           this.oceanCaracValues.controls[params["oceanCaracValues"]].setValue(true);
+          this.getValue();
+          break;
+        case "rarity":
+          this.rarities.controls[RARITY_API_OPTIONS.findIndex((element: string) => element === params["rarity"])].setValue(true);
+          this.getValue();
+          break;
+        case "sets":
+          this.sets.controls[SET_API_OPTIONS.findIndex((element: string) => element === params["sets"])].setValue(true);
           this.getValue();
           break;
         default:

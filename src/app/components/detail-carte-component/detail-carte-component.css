@@ -37,10 +37,17 @@ h1 {
 }
 
 #main-informations-container {
-    height:450px;
-    width: 50%;
+    height: 450px;
     margin-top: 5rem;
+}
+
+#other-informations-container {
+    margin-top: 1rem;
+}
+
+.informations-container {
     background-color: rgb(236, 235, 232);
+    width: 50%;
 }
 
 .card-type-and-subtype-container {
@@ -177,9 +184,9 @@ img {
 }
 
 .altered-icon {
-  font-family: 'AlteredIcons', sans-serif;
+    font-family: 'AlteredIcons', sans-serif;
 }
 
 .standard-text {
-  font-family: 'AlteredStandard', sans-serif;
+    font-family: 'AlteredStandard', sans-serif;
 }

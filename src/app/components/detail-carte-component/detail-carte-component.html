@@ -10,7 +10,7 @@
             </div>
         </div>
         <div id="card-detail-container">
-            <div id="main-informations-container">
+            <div id="main-informations-container" class="informations-container">
                 <div class="title-container">
                     <div>
                         {{ card.name }}
@@ -99,6 +99,25 @@
                             <span [class.golden-text]="text.isGold" [innerHTML]="text.text | textParser"></span>
                             }
                         </p>
+                    </div>
+                </div>
+            </div>
+            <div id="other-informations-container" class="informations-container">
+                <div class="title-container">
+                    <div>
+                        Informations
+                    </div>
+                    <div></div>
+                </div>
+                <hr>
+                <div class="card-type-and-subtype-container">
+                    <div class="sub-container">
+                        <span>{{ DETAIL_CARTE_HTML_TEXTE.RARITY }}</span>
+                        <a (click)="goToSearch('rarity', card.rarity.reference)">{{ card.rarity.name }}</a>
+                    </div>
+                    <div class="sub-container">
+                        <span>{{ DETAIL_CARTE_HTML_TEXTE.SETS }}</span>
+                        <a (click)="goToSearch('sets', card.cardSet.reference)">{{ card.cardSet.name }}</a>
                     </div>
                 </div>
             </div>
