@@ -37,7 +37,6 @@ h1 {
 }
 
 #main-informations-container {
-    height: 450px;
     margin-top: 5rem;
 }
 
@@ -52,7 +51,7 @@ h1 {
 
 .card-type-and-subtype-container {
     display: flex;
-    height: 100px;
+    padding-bottom: 10px;
 }
 
 .title-container>div:first-child {
@@ -133,6 +132,12 @@ img {
     box-shadow: 5px 5px 3px rgba(0, 123, 255, 0.3);
 }
 
+.cell-golden-text {
+    color: rgb(166, 141, 48);
+    font-weight: bold !important;
+    text-shadow: 0 0 3px black;
+}
+
 .golden-text {
     color: rgb(166, 141, 48);
     font-weight: bold !important;
@@ -142,8 +147,16 @@ img {
     color: white;
 }
 
+.icon-link {
+    cursor: pointer;
+}
+
+div, h1, p, span {
+    cursor: default;
+}
+
 .attribute-cost-area {
-    width: 11%;
+    width: 12%;
     height: 71%;
     display: flex;
     justify-content: center;
@@ -154,13 +167,22 @@ img {
     margin-right: 2%;
 }
 
+.attribute-cost-area.recall-cost {
+    width: 12.25%;
+}
+
+.empty-cell {
+    background-color: rgba(128, 128, 128, 0.3);
+    backdrop-filter: blur(4px);
+}
+
 .attribute-area {
     min-width: 15%;
     max-height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 1px;
+    padding-top: 2px;
     border-radius: 10px;
     cursor: pointer;
     margin-left: 1%;
@@ -168,19 +190,19 @@ img {
 }
 
 .forest {
-    background-color: rgb(146, 176, 81);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%), rgb(146, 176, 81);
 }
 
 .mountain {
-    background-color: rgb(188, 128, 83);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%), rgb(188, 128, 83);
 }
 
 .ocean {
-    background-color: rgb(102, 115, 163);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%), rgb(102, 115, 163);
 }
 
 .main-cost {
-    background-color: rgb(108, 172, 211);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%), rgb(108, 172, 211);
 }
 
 .altered-icon {

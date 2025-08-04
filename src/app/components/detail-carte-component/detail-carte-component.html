@@ -15,7 +15,7 @@
                     <div>
                         {{ card.name }}
                     </div>
-                    <div [innerHTML]="card.mainFaction.reference | factionParser"></div>
+                    <div class="icon-link" (click)="goToSearch('faction', card.mainFaction.reference)" [innerHTML]="card.mainFaction.reference | factionParser"></div>
                 </div>
                 <hr>
                 <div class="card-type-and-subtype-container">
@@ -41,42 +41,42 @@
                             <div class="attribute-cost-area main-cost">
                                 <p (click)="goToSearch('mainCost', card.elements.MAIN_COST)">
                                     @for (text of card.elements.MAIN_COST | goldenText; track $index) {
-                                    <span [class.golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
+                                    <span [class.cell-golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
                                         text.text }}</span>
                                     }
                                 </p>
                             </div>
-                            <div [style.background-color]="getRecallCostColor(card.mainFaction.reference)"
+                            <div [style.background]="getRecallCostColor(card.mainFaction.reference)"
                                 class="attribute-cost-area recall-cost">
                                 <p (click)="goToSearch('recallCost', card.elements.RECALL_COST)">
                                     @for (text of card.elements.RECALL_COST | goldenText; track $index) {
-                                    <span [class.golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
+                                    <span [class.cell-golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
                                         text.text }}</span>
                                     }
                                 </p>
                             </div>
                             @if (card.cardType.reference === CHARACTER) {
-                            <div class="attribute-area forest">
+                            <div class="attribute-area" [class.empty-cell]="card.elements.FOREST_POWER === '0'" [class.forest]="card.elements.FOREST_POWER !== '0'">
                                 <p (click)="goToSearch('forestCaracValues', card.elements.FOREST_POWER)">
                                     @for (text of card.elements.FOREST_POWER | goldenText; track $index) {
-                                    <span [class.golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
+                                    <span [class.cell-golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
                                         text.text }}</span>
                                     }
                                 </p>
                             </div>
-                            <div class="attribute-area mountain">
+                            <div class="attribute-area" [class.empty-cell]="card.elements.MOUNTAIN_POWER === '0'" [class.mountain]="card.elements.MOUNTAIN_POWER !== '0'">
                                 <p (click)="goToSearch('mountainCaracValues', card.elements.MOUNTAIN_POWER)">
                                     @for (text of card.elements.MOUNTAIN_POWER | goldenText; track $index) {
-                                    <span [class.golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
+                                    <span [class.cell-golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
                                         text.text
                                         }}</span>
                                     }
                                 </p>
                             </div>
-                            <div class="attribute-area ocean">
+                            <div class="attribute-area" [class.empty-cell]="card.elements.OCEAN_POWER === '0'" [class.ocean]="card.elements.OCEAN_POWER !== '0'">
                                 <p (click)="goToSearch('oceanCaracValues', card.elements.OCEAN_POWER)">
                                     @for (text of card.elements.OCEAN_POWER | goldenText; track $index) {
-                                    <span [class.golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
+                                    <span [class.cell-golden-text]="text.isGold" [class.white-text]="!text.isGold">{{
                                         text.text
                                         }}</span>
                                     }
@@ -105,7 +105,7 @@
             <div id="other-informations-container" class="informations-container">
                 <div class="title-container">
                     <div>
-                        Informations
+                        {{ DETAIL_CARTE_HTML_TEXTE.INFORMATIONS }}
                     </div>
                     <div></div>
                 </div>
@@ -119,6 +119,20 @@
                         <span>{{ DETAIL_CARTE_HTML_TEXTE.SETS }}</span>
                         <a (click)="goToSearch('sets', card.cardSet.reference)">{{ card.cardSet.name }}</a>
                     </div>
+                </div>
+            </div>
+            <div id="other-informations-container" class="informations-container">
+                <div class="title-container">
+                    <div>
+                        {{ DETAIL_CARTE_HTML_TEXTE.VARIANTES }}
+                    </div>
+                    <div></div>
+                </div>
+                <hr>
+                <div class="card-type-and-subtype-container">
+                    @for (variante of variantesCarte; track $index) {
+                        <card [card]="variante" [modeVariante]="true" (varianteADetailler)="afficherVariante($event)"></card>
+                    }
                 </div>
             </div>
         </div>

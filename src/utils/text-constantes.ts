@@ -5,5 +5,7 @@ export const DETAIL_CARTE_HTML_TEXTE = {
   MAIN_EFFECT: "EFFET PRINCIPAL",
   ECHO_EFFECT: "EFFET DE RESERVE",
   RARITY: "Rareté",
-  SETS: "Édition"
+  SETS: "Édition",
+  VARIANTES: "Cartes Altérées",
+  INFORMATIONS: "Informations"
 };

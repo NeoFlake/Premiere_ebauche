@@ -1,6 +1,7 @@
 // URL base de départ pour l'appel API
 export const BASE_URL = "https://api.altered.gg/cards?";
 export const DETAIL_SEARCH_BASE_URL = "https://api.altered.gg/cards/";
+export const VARIANTE_URL = "/variants";
 
 // Valeurs possible pour l'appel API (consommé par le back)
 export const FACTION_API_OPTIONS: Array<string> = ["AX", "BR", "LY", "MU", "OR", "YZ"];
@@ -31,6 +32,7 @@ export const SUB_TYPE_API_OPTIONS: Array<string> = [
     "PLANT",
     "ROBOT",
     "SCHOLAR",
+    "SITE",
     "SOLDIER",
     "SONG",
     "SPIRIT",
@@ -90,6 +92,7 @@ export const SUB_TYPE_USER_OPTIONS: Array<string> = [
     "Plante",
     "Robot",
     "Érudit",
+    "Lieu",
     "Soldat",
     "Chant",
     "Esprit",

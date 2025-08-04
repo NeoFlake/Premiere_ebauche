@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input, output } from '@angular/core';
 import { CardInterface } from '../../interfaces/card/card';
 import { Router } from '@angular/router';
 
@@ -12,12 +12,19 @@ export class Card {
 
   @Input() card!: CardInterface;
 
+  public varianteADetailler = output<string>();
+  @Input() modeVariante!: boolean;
+
   constructor(
     private router: Router
-  ){}
+  ) { }
 
   public openDetailCard(card: CardInterface) {
-    this.router.navigate(["carte", card.reference]);
+    if (this.router.url.split('/')[1] === "carte") {   
+      this.varianteADetailler.emit(card.reference);
+    } else {
+      this.router.navigate(["carte", card.reference]);
+    }
   }
 
 }
