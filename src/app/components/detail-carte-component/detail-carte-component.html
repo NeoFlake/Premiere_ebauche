@@ -129,7 +129,7 @@
                     <div></div>
                 </div>
                 <hr>
-                <div class="card-type-and-subtype-container">
+                <div class="variante-area">
                     @for (variante of variantesCarte; track $index) {
                         <card [card]="variante" [modeVariante]="true" (varianteADetailler)="afficherVariante($event)"></card>
                     }

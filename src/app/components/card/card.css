@@ -12,16 +12,19 @@
 }
 
 .variante-container {
-    width: 45%;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
+    height: 400px;
     cursor: pointer;
+    margin-left: 45px;
+    position: relative;
+    transition: bottom 0.3s ease;
+    bottom: 0;
 }
 
-.card-container:hover {
+.variant-size {
+    height: 400px;
+}
+
+.card-container:hover, .variante-container:hover {
     bottom: 1.5%;
 }
 
@@ -34,10 +37,6 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-}
-
-.variant-size {
-    height: 300px;
 }
 
 .image-carte {
