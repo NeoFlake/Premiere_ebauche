@@ -40,7 +40,7 @@ export const SUB_TYPE_API_OPTIONS: Array<string> = [
     "TRAINER"
 ];
 
-export const SET_API_OPTIONS: Array<string> = ["BISE", "CORE", "COREKS", "ALIZE"];
+export const SET_API_OPTIONS: Array<string> = ["COREKS", "CORE", "ALIZE", "BISE", "CYCLONE", "WCQ25"];
 export const KEYWORD_API_OPTIONS: Array<string> = ["RESUPPLY",
     "SEASONED",
     "BOOSTED",
@@ -99,7 +99,7 @@ export const SUB_TYPE_USER_OPTIONS: Array<string> = [
     "Titan",
     "Mentor"
 ];
-export const SET_USER_OPTIONS: Array<string> = ["Murmures du Labyrinthe", "Au-délà des Portes", "KickStarter", "L'Épreuve du Froid"];
+export const SET_USER_OPTIONS: Array<string> = ["KickStarter", "Au-délà des Portes", "L'Épreuve du Froid", "Murmures du Labyrinthe", "L'Odyssée des Cieux", "World Championship Qualifier 2025" ];
 export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille",
     "Aguerri",
     "Boosté",
