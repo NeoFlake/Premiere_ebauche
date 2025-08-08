@@ -1,0 +1,20 @@
+@if (pagination.length > 1){
+<nav>
+    <button (click)="previous()" [disabled]="currentPage === 1">
+        < Précédent </button>
+
+            @for (page of pagination; track $index) {
+            @if(typeof page === "number"){
+            <button [disabled]="page === currentPage" (click)="changePage(page)">
+                {{ page }}
+            </button>
+            } @else {
+            <span>...</span>
+            }
+            }
+
+            <button (click)="next()" [disabled]="currentPage === totalPages">
+                Suivant >
+            </button>
+</nav>
+}

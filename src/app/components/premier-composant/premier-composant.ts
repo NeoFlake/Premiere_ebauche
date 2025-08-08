@@ -7,10 +7,11 @@ import { ALT_ART_OPTION, FACTION_API_OPTIONS, FACTION_OPTIONS, KEYWORD_OPTIONS, 
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Card } from '../card/card';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Pagination } from '../shared/pagination/pagination';
 
 @Component({
   selector: 'premier-composant',
-  imports: [CommonModule, ReactiveFormsModule, Card],
+  imports: [CommonModule, ReactiveFormsModule, Card, Pagination],
   templateUrl: './premier-composant.html',
   styleUrl: './premier-composant.css',
   standalone: true
@@ -38,9 +39,10 @@ export class PremierComposant {
 
   public nombresCartesTrouvees: number = 0;
   public rechercheEffectuee: boolean = false;
-  // Permet d'afficher une pagination plus chiadée avec les inter-page qui sont innaccessible
-  public pagination: Array<number | string> = [];
+
+  // Page actuelle sur laquelle se situe la pagination
   public currentPage: number = 1;
+  // Input du composant de pagination
   public totalPages: number = 1;
 
   public dropdownOpen: boolean = false;
@@ -159,29 +161,6 @@ export class PremierComposant {
 
   }
 
-  public loadPreviousPage(): void {
-    if (this.currentPage > 1) {
-      this.isNavigation = true;
-      this.isLoading = true;
-      this.loadPage(this.currentPage - 1);
-    }
-  }
-
-  public loadNextPage(): void {
-    if (this.currentPage <= this.pagination.length) {
-      this.isNavigation = true;
-      this.isLoading = true;
-      this.loadPage(this.currentPage + 1);
-    }
-  }
-
-  public loadPage(page: number): void {
-    this.isNavigation = true;
-    this.isLoading = true;
-    this.currentPage = page;
-    this.getValue();
-  }
-
   public toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
@@ -199,7 +178,17 @@ export class PremierComposant {
     this.getValue();
   }
 
+  // Intercepte les changements de page sur la navigation
+  public navigation(pageNumber: number){
+    this.isNavigation = true;
+    this.currentPage = pageNumber;
+    this.getValue();
+  }
+
   public getValue(): void {
+
+    // Petit chargement pour permettre de pas montrer les transitions
+    this.isLoading = true;
 
     if (!this.isNavigation) {
       this.currentPage = 1;
@@ -243,14 +232,12 @@ export class PremierComposant {
     this.premierComposantService.premierAppelRest(formResult, rechercheComplexe)
       .pipe(
         tap((data: any) => {
-          this.pagination = [];
           // On fixe la recherche effectué à true
           this.rechercheEffectuee = true;
           // On détermine le nombre de résultat renvoyé par l'API
           this.nombresCartesTrouvees = data.totalItems;
           this.affichageBasique = [...data.cards];
           this.totalPages = data.totalPages;
-          this.pagination = this.premierComposantService.createPaginationDisplay(data.totalPages, this.currentPage);
           this.isLoading = false;
         }),
       )

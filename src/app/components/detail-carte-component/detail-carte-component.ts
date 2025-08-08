@@ -75,6 +75,7 @@ export class DetailCarteComponent {
       tap(([card, variantesCarte]) => {
         this.card = card as CardDetail; // Ici on match avec le premier appel REST, celui qui remonte le détail de la carte
         this.variantesCarte = (variantesCarte?.["hydra:member"] ?? []) as Array<CardDetail>; // Celui-ci sera matché avec le deuxième appel REST, celui qui remonte les variantes
+        window.scrollTo({ top: 0 }); // Permet de remonter la page à sa position initiale (permet d)
       })
     ).subscribe();
   }
