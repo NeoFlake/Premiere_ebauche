@@ -111,7 +111,7 @@ hr {
     padding: 2% 0 0 2%;
 }
 
-.effect-container p span {
+.effect-container span {
     font-weight: normal;
 }
 
@@ -158,7 +158,7 @@ img {
     cursor: pointer;
 }
 
-div, h1, p, span {
+div {
     cursor: default;
 }
 

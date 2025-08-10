@@ -40,26 +40,3 @@
 .mt-3 {
   margin-top: 1%;
 }
-
-.dropdown-content {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 0.5em;
-  max-height: 200px;
-  width: 150px;
-  overflow-y: auto;
-  z-index: 100;
-}
-
-.dropdown-content div {
-  display: block;
-}
-
-#sort-option-dropdown p {
-  cursor: pointer;
-}
-
-#sort-option-dropdown p:hover {
-  background-color: aqua;
-}

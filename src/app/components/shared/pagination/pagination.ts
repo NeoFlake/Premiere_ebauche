@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { PaginationService } from './service/pagination-service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'pagination',
@@ -9,49 +10,51 @@ import { PaginationService } from './service/pagination-service';
 })
 export class Pagination {
 
-  @Input() totalPages!: number;
+  @Input() nombrePage!: number;
 
-  @Output() pageChange = new EventEmitter<number>();
+  @Input() actualPage$!: BehaviorSubject<number>;
+
+  public actualPage: number = 1;
 
   public pagination: (number | string)[] = [];
-  public currentPage: number = 1;
 
   constructor(private paginationService: PaginationService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["totalPages"]) {
-      this.currentPage = 1;
+    console.log(changes["nombrePage"] );
+    if (changes["nombrePage"] && changes["nombrePage"].currentValue > 0) {
+      this.actualPage = 1;
       this.pagination = [];
       this.reloadPagination();
     }
   }
 
   public previous(): void {
-    if (this.currentPage > 1) {
-      this.currentPage -= 1;
-      this.pageChange.emit(this.currentPage);
+    if (this.actualPage > 1) {
+      this.actualPage -= 1;
+      this.actualPage$.next(this.actualPage);
       this.reloadPagination();
     }
   }
 
   public next(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage += 1;
-      this.pageChange.emit(this.currentPage);
+    if (this.actualPage < this.nombrePage) {
+      this.actualPage += 1;
+      this.actualPage$.next(this.actualPage);
       this.reloadPagination();
     }
   }
 
   public changePage(page: number): void {
-    if (typeof page === 'number' && page !== this.currentPage) {
-      this.currentPage = page;
-      this.pageChange.emit(page);
+    if (typeof page === 'number' && page !== this.actualPage) {
+      this.actualPage = page;
+      this.actualPage$.next(page);
       this.reloadPagination();
     }
   }
 
   public reloadPagination() {
-    this.pagination = this.paginationService.createDisplay(this.totalPages, this.currentPage);
+    this.pagination = this.paginationService.createDisplay(this.nombrePage, this.actualPage);
   }
 
 }

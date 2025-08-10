@@ -1,0 +1,138 @@
+<form [formGroup]="form" (ngSubmit)="getValue()">
+    <!-- À factoriser -->
+    <div formArrayName="factions">
+        <span>Factions : </span>
+        @for (faction of factions.controls; track $index) {
+        <label>
+            <input type="checkbox" [formControlName]="$index" />
+            {{ FACTION_OPTIONS[$index].libelle }}
+        </label>
+        }
+    </div>
+    <!-- À factoriser -->
+    <div formArrayName="rarities">
+        <span>Raretés : </span>
+        @for (rarity of rarities.controls; track $index) {
+        <label>
+            <input type="checkbox" [formControlName]="$index" />
+            {{ RARITY_OPTIONS[$index].libelle }}
+        </label>
+        }
+    </div>
+    <!-- À factoriser -->
+    <div formArrayName="types">
+        <span>Types : </span>
+        @for (type of types.controls; track $index) {
+        <label>
+            <input type="checkbox" [formControlName]="$index" />
+            {{ TYPE_OPTIONS[$index].libelle }}
+        </label>
+        }
+    </div>
+    <div>
+        <span>Sous-Types: </span>
+        <select formControlName="subTypes">
+            <option value=""></option>
+            @for (subType of SUB_TYPE_OPTIONS; track $index) {
+            <option [value]="subType.value">{{ subType.libelle }}</option>
+            }
+        </select>
+    </div>
+    <!-- À factoriser -->
+    <div formArrayName="sets">
+        <span>Sets : </span>
+        @for (set of sets.controls; track $index) {
+        <label>
+            <input type="checkbox" [formControlName]="$index" />
+            {{ SET_OPTIONS[$index].libelle }}
+        </label>
+        }
+    </div>
+    <!-- À factoriser -->
+    <div formArrayName="mainCosts">
+        <span>Coût de main : </span>
+        @for (mainCost of mainCosts.controls; track $index) {
+        <label>
+            <input type="checkbox" [formControlName]="$index" />
+            {{ $index }}
+        </label>
+        }
+    </div>
+    <!-- À factoriser -->
+    <div formArrayName="recallCosts">
+        <span>Coût de réserve : </span>
+        @for (recallCost of recallCosts.controls; track $index) {
+        <label>
+            <input type="checkbox" [formControlName]="$index" />
+            {{ $index }}
+        </label>
+        }
+    </div>
+    <div>
+        <span>Attribut : </span>
+        <div formArrayName="forestCaracValues">
+            <span>Forêt : </span>
+            @for (forestCaracValue of forestCaracValues.controls; track $index) {
+            <label>
+                <input type="checkbox" [formControlName]="$index" />
+                {{ $index }}
+            </label>
+            }
+        </div>
+        <div formArrayName="mountainCaracValues">
+            <span>Montagne : </span>
+            @for (mountainCaracValue of mountainCaracValues.controls; track $index) {
+            <label>
+                <input type="checkbox" [formControlName]="$index" />
+                {{ $index }}
+            </label>
+            }
+        </div>
+        <div formArrayName="oceanCaracValues">
+            <span>Océan : </span>
+            @for (oceanCaracValue of oceanCaracValues.controls; track $index) {
+            <label>
+                <input type="checkbox" [formControlName]="$index" />
+                {{ $index }}
+            </label>
+            }
+        </div>
+    </div>
+    <!-- À factoriser -->
+
+    <div class="dropdown" (click)="toggleDropdown()" tabindex="0">
+        <button type="button" class="dropdown-button">Mots Clés</button>
+        <div formArrayName="keywords" class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'">
+            @for (keyword of keywords.controls; track $index) {
+            <div>
+                <label>
+                    <input type="checkbox" [formControlName]="$index" />
+                    {{ KEYWORD_OPTIONS[$index].libelle }}
+                </label>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div>
+        <label>{{ ALT_ART_OPTION }}</label>
+        <input type="checkbox" formControlName="altArt" />
+    </div>
+    <div>
+        <label>{{ NAME_OPTION }}</label>
+        <input type="text" formControlName="name" placeholder="..." />
+    </div>
+    <div>
+    </div>
+    <div>
+        <button type="submit">Rechercher</button>
+    </div>
+</form>
+<div class="sort-option-dropdown-container mt-3" (click)="toggleDropdownTrier()" tabindex="0">
+    <button type="button" class="dropdown-button">{{ sortTitleLibelle }} </button>
+    <div id="sort-option-dropdown" class="dropdown-content" [style.display]="dropdownTrierOpen ? 'block' : 'none'">
+        @for (option of SORT_OPTIONS; track $index) {
+        <p (click)="orderBy(option)">{{ option.libelle }}</p>
+        }
+    </div>
+</div>
