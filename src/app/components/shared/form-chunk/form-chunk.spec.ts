@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormArrayGroup } from './checkbox-list';
+import { FormArrayGroup } from './form-chunk';
 
 describe('FormArrayGroup', () => {
   let component: FormArrayGroup;

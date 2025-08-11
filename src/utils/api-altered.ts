@@ -120,8 +120,8 @@ export const KEYWORD_USER_OPTIONS: Array<string> = ["Ravitaille",
     "Ancré",
     "Fugace",
     "Endormi"];
-export const ALT_ART_OPTION: string = "Art Alternatif";
-export const NAME_OPTION: string = "Nom";
+export const ALT_ART_OPTION: string = "Art Alternatif : ";
+export const NAME_OPTION: string = "Nom : ";
 
 export const SORT_USER_OPTIONS: Array<string> = ["Collection Asc", "Collection Desc", "Nom A-Z", "Nom Z-A", "Mana asc", "Mana desc", "Réserve asc", "Réserve desc"];
 

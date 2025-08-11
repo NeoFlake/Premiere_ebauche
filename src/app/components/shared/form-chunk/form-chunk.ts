@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CheckboxListOptions } from '../../../interfaces/form/checkbox-list-options';
+import { FormChunkOptions } from '../../../interfaces/form/checkbox-list-options';
 import { FormType } from '../../../enum/form-type.enum';
 
 @Component({
-  selector: 'checkbox-list',
+  selector: 'form-chunk',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './checkbox-list.html',
-  styleUrl: './checkbox-list.css'
+  templateUrl: './form-chunk.html',
+  styleUrl: './form-chunk.css'
 })
-export class CheckboxList {
-  @Input() checkboxListOptions!: CheckboxListOptions;
+export class FormChunk {
+  @Input() checkboxListOptions!: FormChunkOptions;
   @Input() formType!: FormType;
 
   public FormTypeEnum = FormType;

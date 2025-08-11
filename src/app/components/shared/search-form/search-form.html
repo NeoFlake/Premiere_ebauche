@@ -1,30 +1,27 @@
 <form [formGroup]="form" (ngSubmit)="getValue()">
-    <checkbox-list [checkboxListOptions]="factionOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="rarityOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="typesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+    <form-chunk [checkboxListOptions]="factionOptions" [formType]="FormTypeEnum.CheckList"></form-chunk>
+    <form-chunk [checkboxListOptions]="rarityOptions" [formType]="FormTypeEnum.CheckList"></form-chunk>
+    <form-chunk [checkboxListOptions]="typesOptions" [formType]="FormTypeEnum.CheckList"></form-chunk>
 
-    <checkbox-list [checkboxListOptions]="subTypesOptions" [formType]="FormTypeEnum.Selection"></checkbox-list>
+    <form-chunk [checkboxListOptions]="subTypesOptions" [formType]="FormTypeEnum.Selection"></form-chunk>
 
-    <checkbox-list [checkboxListOptions]="setsOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="mainCostsOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="recallCostsOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+    <form-chunk [checkboxListOptions]="setsOptions" [formType]="FormTypeEnum.CheckList"></form-chunk>
+    <form-chunk [checkboxListOptions]="mainCostsOptions" [formType]="FormTypeEnum.CheckList"></form-chunk>
+    <form-chunk [checkboxListOptions]="recallCostsOptions" [formType]="FormTypeEnum.CheckList"></form-chunk>
     <div>
         <span>Attribut : </span>
-        <checkbox-list [checkboxListOptions]="forestCaracValuesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
-        <checkbox-list [checkboxListOptions]="mountainCaracValuesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
-        <checkbox-list [checkboxListOptions]="oceanCaracValuesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+        <form-chunk [checkboxListOptions]="forestCaracValuesOptions"
+            [formType]="FormTypeEnum.CheckList"></form-chunk>
+        <form-chunk [checkboxListOptions]="mountainCaracValuesOptions"
+            [formType]="FormTypeEnum.CheckList"></form-chunk>
+        <form-chunk [checkboxListOptions]="oceanCaracValuesOptions"
+            [formType]="FormTypeEnum.CheckList"></form-chunk>
     </div>
 
-    <checkbox-list [checkboxListOptions]="keywordsOptions" [formType]="FormTypeEnum.NestedCheckList"></checkbox-list>
+    <form-chunk [checkboxListOptions]="keywordsOptions" [formType]="FormTypeEnum.NestedCheckList"></form-chunk>
+    <form-chunk [checkboxListOptions]="altArtOptions" [formType]="FormTypeEnum.SimpleInput"></form-chunk>
+    <form-chunk [checkboxListOptions]="nameOptions" [formType]="FormTypeEnum.SimpleInput"></form-chunk>
 
-    <div>
-        <label>{{ ALT_ART_OPTION }}</label>
-        <input type="checkbox" formControlName="altArt" />
-    </div>
-    <div>
-        <label>{{ NAME_OPTION }}</label>
-        <input type="text" formControlName="name" placeholder="..." />
-    </div>
     <div>
         <button type="submit">Rechercher</button>
     </div>

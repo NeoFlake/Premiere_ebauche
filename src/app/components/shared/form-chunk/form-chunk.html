@@ -4,10 +4,10 @@
 <span>{{ checkboxListOptions.title }}</span>
 }
 @for (control of controls; track $index) {
+<input type="checkbox" [formControl]="control" />
 <label>
     {{ checkboxListOptions.isNumericValue ? $index : checkboxListOptions.options![$index].libelle }}
 </label>
-<input type="checkbox" [formControl]="control" />
 }
 }
 @case (FormTypeEnum.NestedCheckList) {
@@ -34,6 +34,17 @@
         <option [value]="option.value">{{ option.libelle }}</option>
         }
     </select>
+</div>
+}
+@case(FormTypeEnum.SimpleInput){
+<div>
+    <label>{{ checkboxListOptions.title }}</label>
+    @if(checkboxListOptions.soloInputType === "checkbox"){
+    <input type="checkbox" [formControl]="checkboxListOptions.formControl!" />
+    }
+    @if(checkboxListOptions.soloInputType === "text"){
+    <input type="text" [formControl]="checkboxListOptions.formControl!" placeholder="..." />
+    }
 </div>
 }
 }
