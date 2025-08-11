@@ -1,7 +1,39 @@
+@switch (formType) {
+@case (FormTypeEnum.CheckList) {
+@if(checkboxListOptions.title !== "") {
 <span>{{ checkboxListOptions.title }}</span>
+}
 @for (control of controls; track $index) {
 <label>
-    {{ checkboxListOptions.isNumericValue ? $index : checkboxListOptions.options[$index].libelle }}
+    {{ checkboxListOptions.isNumericValue ? $index : checkboxListOptions.options![$index].libelle }}
 </label>
 <input type="checkbox" [formControl]="control" />
+}
+}
+@case (FormTypeEnum.NestedCheckList) {
+<div class="dropdown" (click)="toggleDropdown()" tabindex="0">
+    <button type="button" class="dropdown-button">Mots Clés</button>
+    <div class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'">
+        @for (control of controls; track $index) {
+        <div>
+            <label>
+                {{ checkboxListOptions.isNumericValue ? $index : checkboxListOptions.options![$index].libelle }}
+            </label>
+            <input type="checkbox" [formControl]="control" />
+        </div>
+        }
+    </div>
+</div>
+}
+@case(FormTypeEnum.Selection) {
+<div>
+    <span>{{ checkboxListOptions.title }}</span>
+    <select [formControl]="checkboxListOptions.formControl!">
+        <option value=""></option>
+        @for(option of checkboxListOptions.options!; track $index) {
+        <option [value]="option.value">{{ option.libelle }}</option>
+        }
+    </select>
+</div>
+}
 }

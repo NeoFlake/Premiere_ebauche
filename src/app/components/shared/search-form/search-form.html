@@ -1,40 +1,21 @@
 <form [formGroup]="form" (ngSubmit)="getValue()">
-    <checkbox-list [checkboxListOptions]="factionOptions"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="rarityOptions"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="typesOptions"></checkbox-list>
-    <div>
-        <span>Sous-Types: </span>
-        <select formControlName="subTypes">
-            <option value=""></option>
-            @for (subType of SUB_TYPE_OPTIONS; track $index) {
-            <option [value]="subType.value">{{ subType.libelle }}</option>
-            }
-        </select>
-    </div>
-    <checkbox-list [checkboxListOptions]="setsOptions"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="mainCostsOptions"></checkbox-list>
-    <checkbox-list [checkboxListOptions]="recallCostsOptions"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="factionOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="rarityOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="typesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+
+    <checkbox-list [checkboxListOptions]="subTypesOptions" [formType]="FormTypeEnum.Selection"></checkbox-list>
+
+    <checkbox-list [checkboxListOptions]="setsOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="mainCostsOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="recallCostsOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
     <div>
         <span>Attribut : </span>
-        <checkbox-list [checkboxListOptions]="forestCaracValuesOptions"></checkbox-list>
-        <checkbox-list [checkboxListOptions]="mountainCaracValuesOptions"></checkbox-list>
-        <checkbox-list [checkboxListOptions]="oceanCaracValuesOptions"></checkbox-list>
+        <checkbox-list [checkboxListOptions]="forestCaracValuesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+        <checkbox-list [checkboxListOptions]="mountainCaracValuesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
+        <checkbox-list [checkboxListOptions]="oceanCaracValuesOptions" [formType]="FormTypeEnum.CheckList"></checkbox-list>
     </div>
-    <!-- À factoriser -->
 
-    <div class="dropdown" (click)="toggleDropdown()" tabindex="0">
-        <button type="button" class="dropdown-button">Mots Clés</button>
-        <div formArrayName="keywords" class="dropdown-content" [style.display]="dropdownOpen ? 'block' : 'none'">
-            @for (keyword of keywords.controls; track $index) {
-            <div>
-                <label>
-                    <input type="checkbox" [formControlName]="$index" />
-                    {{ KEYWORD_OPTIONS[$index].libelle }}
-                </label>
-            </div>
-            }
-        </div>
-    </div>
+    <checkbox-list [checkboxListOptions]="keywordsOptions" [formType]="FormTypeEnum.NestedCheckList"></checkbox-list>
 
     <div>
         <label>{{ ALT_ART_OPTION }}</label>
@@ -43,8 +24,6 @@
     <div>
         <label>{{ NAME_OPTION }}</label>
         <input type="text" formControlName="name" placeholder="..." />
-    </div>
-    <div>
     </div>
     <div>
         <button type="submit">Rechercher</button>

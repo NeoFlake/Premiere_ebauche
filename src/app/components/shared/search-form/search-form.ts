@@ -8,6 +8,7 @@ import { ApiResult } from '../../../interfaces/api/api-result';
 import { CommonModule } from '@angular/common';
 import { CheckboxListOptions } from '../../../interfaces/form/checkbox-list-options';
 import { CheckboxList } from '../checkbox-list/checkbox-list';
+import { FormType } from '../../../enum/form-type.enum';
 
 @Component({
   selector: 'search-form',
@@ -34,8 +35,6 @@ export class SearchForm {
   public altArt: FormControl<boolean>;
 
   public name: FormControl<string>;
-
-  public dropdownOpen: boolean = false;
 
   public selectedKeywords: Array<string> = [];
 
@@ -73,6 +72,10 @@ export class SearchForm {
   public forestCaracValuesOptions: CheckboxListOptions;
   public mountainCaracValuesOptions: CheckboxListOptions;
   public oceanCaracValuesOptions: CheckboxListOptions;
+  public keywordsOptions: CheckboxListOptions;
+  public subTypesOptions: CheckboxListOptions;
+
+  public FormTypeEnum = FormType;
 
   constructor(
     private searchFormService: SearchFormService,
@@ -129,55 +132,69 @@ export class SearchForm {
       options: RARITY_OPTIONS,
       title: "Raretés : ", 
       isNumericValue: false
-    }
+    };
 
     this.typesOptions = {
       formArray: this.types,
       options: TYPE_OPTIONS,
       title: "Types : ",
       isNumericValue: false
-    }
+    };
 
     this.setsOptions = {
       formArray: this.sets,
       options: SET_OPTIONS,
       title: "Sets : ",
       isNumericValue: false
-    }
+    };
 
     this.mainCostsOptions = {
       formArray: this.mainCosts,
       options: [],
-      title: "Coût de main",
+      title: "Coût de main : ",
       isNumericValue: true
-    }
+    };
 
     this.recallCostsOptions = {
       formArray: this.recallCosts,
       options: [],
-      title: "Coût de réserve",
+      title: "Coût de réserve : ",
       isNumericValue: true
-    }
+    };
 
     this.forestCaracValuesOptions = {
       formArray: this.forestCaracValues,
       options: [],
-      title: "Forêt",
+      title: "Forêt : ",
       isNumericValue: true
-    }
+    };
 
     this.mountainCaracValuesOptions = {
       formArray: this.mountainCaracValues,
       options: [],
-      title: "Montagne",
+      title: "Montagne : ",
       isNumericValue: true
-    }
+
+    };
 
     this.oceanCaracValuesOptions = {
       formArray: this.oceanCaracValues,
       options: [],
-      title: "Océan",
+      title: "Océan : ",
       isNumericValue: true
+    };
+
+    this.keywordsOptions = {
+      formArray: this.keywords,
+      options: KEYWORD_OPTIONS,
+      title: "",
+      isNumericValue: false
+    };
+
+    this.subTypesOptions = {
+      formControl: this.subTypes,
+      options: SUB_TYPE_OPTIONS,
+      title: "Sous-Type : "
     }
 
     this.formIsReady = true;
@@ -201,10 +218,6 @@ export class SearchForm {
           }
         }))
       .subscribe();
-  }
-
-  public toggleDropdown(): void {
-    this.dropdownOpen = !this.dropdownOpen;
   }
 
   public searchFromRedirection(params: Params): void {
