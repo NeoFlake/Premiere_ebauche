@@ -1,0 +1,7 @@
+<span>{{ checkboxListOptions.title }}</span>
+@for (control of controls; track $index) {
+<label>
+    {{ checkboxListOptions.isNumericValue ? $index : checkboxListOptions.options[$index].libelle }}
+</label>
+<input type="checkbox" [formControl]="control" />
+}

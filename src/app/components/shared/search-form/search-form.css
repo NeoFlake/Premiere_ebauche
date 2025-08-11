@@ -24,3 +24,7 @@ input, label, button, select, select>option {
 #sort-option-dropdown p:hover {
   background-color: aqua;
 }
+
+checkbox-list {
+  display: block;
+}

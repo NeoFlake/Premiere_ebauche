@@ -1,15 +1,17 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, output, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormArray, FormControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { BehaviorSubject, distinct, distinctUntilChanged, tap } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, tap } from 'rxjs';
 import { FACTION_OPTIONS, RARITY_OPTIONS, TYPE_OPTIONS, SUB_TYPE_OPTIONS, SET_OPTIONS, ALT_ART_OPTION, NAME_OPTION, KEYWORD_OPTIONS, SORT_OPTIONS, TYPE_API_OPTIONS, RARITY_API_OPTIONS, SET_API_OPTIONS, FACTION_API_OPTIONS, URL_SORT_BY } from '../../../../utils/api-altered';
 import { SearchFormService } from './service/search-form-service';
 import { ApiResult } from '../../../interfaces/api/api-result';
 import { CommonModule } from '@angular/common';
+import { CheckboxListOptions } from '../../../interfaces/form/checkbox-list-options';
+import { CheckboxList } from '../checkbox-list/checkbox-list';
 
 @Component({
   selector: 'search-form',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CheckboxList],
   templateUrl: './search-form.html',
   styleUrl: './search-form.css'
 })
@@ -42,6 +44,9 @@ export class SearchForm {
 
   public dropdownTrierOpen: boolean = false;
 
+  private formIsReady: boolean = false;
+  private redirectionFormParams: Params | null = null;
+
   @Input() isNavigation$!: BehaviorSubject<boolean>;
 
   @Input() actualPage$!: BehaviorSubject<number>;
@@ -58,6 +63,16 @@ export class SearchForm {
   readonly NAME_OPTION = NAME_OPTION;
   readonly KEYWORD_OPTIONS = KEYWORD_OPTIONS;
   readonly SORT_OPTIONS = SORT_OPTIONS;
+
+  public factionOptions: CheckboxListOptions;
+  public rarityOptions: CheckboxListOptions;
+  public typesOptions: CheckboxListOptions;
+  public setsOptions: CheckboxListOptions;
+  public mainCostsOptions: CheckboxListOptions;
+  public recallCostsOptions: CheckboxListOptions;
+  public forestCaracValuesOptions: CheckboxListOptions;
+  public mountainCaracValuesOptions: CheckboxListOptions;
+  public oceanCaracValuesOptions: CheckboxListOptions;
 
   constructor(
     private searchFormService: SearchFormService,
@@ -102,52 +117,77 @@ export class SearchForm {
       oceanCaracValues: this.oceanCaracValues,
     });
 
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      switch (Object.keys(params)[0]) {
-        case "cardType":
-          this.types.controls[TYPE_API_OPTIONS.findIndex((element: string) => element === params["cardType"])].setValue(true);
-          this.getValue();
-          break;
-        case "cardSubTypes":
-          this.subTypes.setValue(params["cardSubTypes"]);
-          this.getValue();
-          break;
-        case "mainCost":
-          this.mainCosts.controls[params["mainCost"]].setValue(true);
-          this.getValue();
-          break;
-        case "recallCost":
-          this.recallCosts.controls[params["recallCost"]].setValue(true);
-          this.getValue();
-          break;
-        case "forestCaracValues":
-          this.forestCaracValues.controls[params["forestCaracValues"]].setValue(true);
-          this.getValue();
-          break;
-        case "mountainCaracValues":
-          this.mountainCaracValues.controls[params["mountainCaracValues"]].setValue(true);
-          this.getValue();
-          break;
-        case "oceanCaracValues":
-          this.oceanCaracValues.controls[params["oceanCaracValues"]].setValue(true);
-          this.getValue();
-          break;
-        case "rarity":
-          this.rarities.controls[RARITY_API_OPTIONS.findIndex((element: string) => element === params["rarity"])].setValue(true);
-          this.getValue();
-          break;
-        case "sets":
-          this.sets.controls[SET_API_OPTIONS.findIndex((element: string) => element === params["sets"])].setValue(true);
-          this.getValue();
-          break;
-        case "faction":
-          this.factions.controls[FACTION_API_OPTIONS.findIndex((element: string) => element === params["faction"])].setValue(true);
-          this.getValue();
-          break;
-        default:
-          break;
-      }
-    });
+    this.factionOptions = {
+      formArray: this.factions,
+      options: FACTION_OPTIONS,
+      title: "Factions : ",
+      isNumericValue: false
+    };
+
+    this.rarityOptions = {
+      formArray: this.rarities,
+      options: RARITY_OPTIONS,
+      title: "Raretés : ", 
+      isNumericValue: false
+    }
+
+    this.typesOptions = {
+      formArray: this.types,
+      options: TYPE_OPTIONS,
+      title: "Types : ",
+      isNumericValue: false
+    }
+
+    this.setsOptions = {
+      formArray: this.sets,
+      options: SET_OPTIONS,
+      title: "Sets : ",
+      isNumericValue: false
+    }
+
+    this.mainCostsOptions = {
+      formArray: this.mainCosts,
+      options: [],
+      title: "Coût de main",
+      isNumericValue: true
+    }
+
+    this.recallCostsOptions = {
+      formArray: this.recallCosts,
+      options: [],
+      title: "Coût de réserve",
+      isNumericValue: true
+    }
+
+    this.forestCaracValuesOptions = {
+      formArray: this.forestCaracValues,
+      options: [],
+      title: "Forêt",
+      isNumericValue: true
+    }
+
+    this.mountainCaracValuesOptions = {
+      formArray: this.mountainCaracValues,
+      options: [],
+      title: "Montagne",
+      isNumericValue: true
+    }
+
+    this.oceanCaracValuesOptions = {
+      formArray: this.oceanCaracValues,
+      options: [],
+      title: "Océan",
+      isNumericValue: true
+    }
+
+    this.formIsReady = true;
+
+    if (this.redirectionFormParams) {
+      this.searchFromRedirection(this.redirectionFormParams);
+      this.redirectionFormParams = null;
+    }
+
+    this.activatedRoute.queryParams.subscribe((params: Params) => this.formIsReady ? this.searchFromRedirection(params) : this.redirectionFormParams = params);
 
   }
 
@@ -167,8 +207,47 @@ export class SearchForm {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
+  public searchFromRedirection(params: Params): void {
+
+    const key: string = Object.keys(params)[0];
+
+    const methodLoadersByKey: Record<string, () => void> = {
+      cardType: () => {
+        const index = TYPE_API_OPTIONS.findIndex((el: string) => el === params["cardType"]);
+        if (index !== -1) this.types.controls[index].setValue(true);
+      },
+      cardSubTypes: () => this.subTypes.setValue(params["cardSubTypes"]),
+      mainCost: () => this.mainCosts.controls[params["mainCost"]].setValue(true),
+      recallCost: () => this.recallCosts.controls[params["recallCost"]].setValue(true),
+      forestCaracValues: () => this.forestCaracValues.controls[params["forestCaracValues"]].setValue(true),
+      mountainCaracValues: () => this.mountainCaracValues.controls[params["mountainCaracValues"]].setValue(true),
+      oceanCaracValues: () => this.oceanCaracValues.controls[params["oceanCaracValues"]].setValue(true),
+      rarity: () => {
+        const index = RARITY_API_OPTIONS.findIndex((el: string) => el === params["rarity"]);
+        if (index !== -1) this.rarities.controls[index].setValue(true);
+      },
+      sets: () => {
+        const index = SET_API_OPTIONS.findIndex((el: string) => el === params["sets"]);
+        if (index !== -1) this.sets.controls[index].setValue(true);
+      },
+      faction: () => {
+        const index = FACTION_API_OPTIONS.findIndex((el: string) => el === params["faction"]);
+        if (index !== -1) this.factions.controls[index].setValue(true);
+      }
+    }
+
+    if (methodLoadersByKey[key]) {
+      methodLoadersByKey[key]();
+    }
+
+    if (Object.keys(params).length > 0) {
+      setTimeout(() => this.getValue(), 0);
+    }
+
+  }
+
   public getValue(): void {
-    
+
     // Petit chargement pour permettre de pas montrer les transitions
     this.rechercheEffectuee.emit(false);
 
@@ -210,7 +289,7 @@ export class SearchForm {
     this.searchFormService.getCardsFromSearch(formResult, rechercheComplexe)
       .pipe(
         tap((data: any) => {
-          
+
           this.apiResult.emit({
             nombresCartesTrouvees: data.totalItems,
             cards: [...data.cards],

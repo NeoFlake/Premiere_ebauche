@@ -21,7 +21,6 @@ export class Pagination {
   constructor(private paginationService: PaginationService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes["nombrePage"] );
     if (changes["nombrePage"] && changes["nombrePage"].currentValue > 0) {
       this.actualPage = 1;
       this.pagination = [];

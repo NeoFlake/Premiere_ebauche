@@ -1,34 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="getValue()">
-    <!-- À factoriser -->
-    <div formArrayName="factions">
-        <span>Factions : </span>
-        @for (faction of factions.controls; track $index) {
-        <label>
-            <input type="checkbox" [formControlName]="$index" />
-            {{ FACTION_OPTIONS[$index].libelle }}
-        </label>
-        }
-    </div>
-    <!-- À factoriser -->
-    <div formArrayName="rarities">
-        <span>Raretés : </span>
-        @for (rarity of rarities.controls; track $index) {
-        <label>
-            <input type="checkbox" [formControlName]="$index" />
-            {{ RARITY_OPTIONS[$index].libelle }}
-        </label>
-        }
-    </div>
-    <!-- À factoriser -->
-    <div formArrayName="types">
-        <span>Types : </span>
-        @for (type of types.controls; track $index) {
-        <label>
-            <input type="checkbox" [formControlName]="$index" />
-            {{ TYPE_OPTIONS[$index].libelle }}
-        </label>
-        }
-    </div>
+    <checkbox-list [checkboxListOptions]="factionOptions"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="rarityOptions"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="typesOptions"></checkbox-list>
     <div>
         <span>Sous-Types: </span>
         <select formControlName="subTypes">
@@ -38,65 +11,14 @@
             }
         </select>
     </div>
-    <!-- À factoriser -->
-    <div formArrayName="sets">
-        <span>Sets : </span>
-        @for (set of sets.controls; track $index) {
-        <label>
-            <input type="checkbox" [formControlName]="$index" />
-            {{ SET_OPTIONS[$index].libelle }}
-        </label>
-        }
-    </div>
-    <!-- À factoriser -->
-    <div formArrayName="mainCosts">
-        <span>Coût de main : </span>
-        @for (mainCost of mainCosts.controls; track $index) {
-        <label>
-            <input type="checkbox" [formControlName]="$index" />
-            {{ $index }}
-        </label>
-        }
-    </div>
-    <!-- À factoriser -->
-    <div formArrayName="recallCosts">
-        <span>Coût de réserve : </span>
-        @for (recallCost of recallCosts.controls; track $index) {
-        <label>
-            <input type="checkbox" [formControlName]="$index" />
-            {{ $index }}
-        </label>
-        }
-    </div>
+    <checkbox-list [checkboxListOptions]="setsOptions"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="mainCostsOptions"></checkbox-list>
+    <checkbox-list [checkboxListOptions]="recallCostsOptions"></checkbox-list>
     <div>
         <span>Attribut : </span>
-        <div formArrayName="forestCaracValues">
-            <span>Forêt : </span>
-            @for (forestCaracValue of forestCaracValues.controls; track $index) {
-            <label>
-                <input type="checkbox" [formControlName]="$index" />
-                {{ $index }}
-            </label>
-            }
-        </div>
-        <div formArrayName="mountainCaracValues">
-            <span>Montagne : </span>
-            @for (mountainCaracValue of mountainCaracValues.controls; track $index) {
-            <label>
-                <input type="checkbox" [formControlName]="$index" />
-                {{ $index }}
-            </label>
-            }
-        </div>
-        <div formArrayName="oceanCaracValues">
-            <span>Océan : </span>
-            @for (oceanCaracValue of oceanCaracValues.controls; track $index) {
-            <label>
-                <input type="checkbox" [formControlName]="$index" />
-                {{ $index }}
-            </label>
-            }
-        </div>
+        <checkbox-list [checkboxListOptions]="forestCaracValuesOptions"></checkbox-list>
+        <checkbox-list [checkboxListOptions]="mountainCaracValuesOptions"></checkbox-list>
+        <checkbox-list [checkboxListOptions]="oceanCaracValuesOptions"></checkbox-list>
     </div>
     <!-- À factoriser -->
 
