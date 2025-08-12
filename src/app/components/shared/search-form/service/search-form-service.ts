@@ -45,9 +45,7 @@ export class SearchFormService {
     }
 
     if (formOptions.page > 1) {
-      if (rechercheComplexe) {
-        apiRequestUrl += "&";
-      } else {
+      if (!rechercheComplexe) {
         apiRequestUrl += "?";
       }
       apiRequestUrl = apiRequestUrl + "page=" + formOptions.page
@@ -56,7 +54,7 @@ export class SearchFormService {
     if (apiRequestUrl[apiRequestUrl.length - 1] === "&" || apiRequestUrl[apiRequestUrl.length - 1] === "?") {
       apiRequestUrl = apiRequestUrl.slice(0, -1);
     }
-
+    
     return this.apiRestAltered.getAlteredResources(apiRequestUrl).pipe(
       map((data: any) => {
         nbElement = data["hydra:totalItems"];
