@@ -16,7 +16,8 @@ export class PaginationService {
       }
       return pagination;
     }
-
+    
+    
     if (currentPage <= 3) {
       pagination.push(...[1, 2, 3, 4, 5], "...", numberOfPages);
     } else if (currentPage >= numberOfPages - 2) {

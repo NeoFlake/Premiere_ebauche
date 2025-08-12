@@ -18,10 +18,12 @@ export class Pagination {
 
   public pagination: (number | string)[] = [];
 
-  constructor(private paginationService: PaginationService) { }
+  constructor(private paginationService: PaginationService) {
+    this.reloadPagination();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["nombrePage"] && changes["nombrePage"].currentValue > 0) {
+    if (changes["nombrePage"] && changes["nombrePage"].previousValue !== changes["nombrePage"].currentValue && changes["nombrePage"].currentValue > 0) {
       this.actualPage = 1;
       this.pagination = [];
       this.reloadPagination();

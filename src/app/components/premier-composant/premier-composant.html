@@ -6,33 +6,32 @@
 </div>
 <div class="cards-container">
     <h2>Retour de l'API Rest Altered</h2>
-    @if (rechercheEffectuee){
-    @if(nombresCartesTrouvees > 0) {
-    <div id="how-much-area">
-        {{ nombresCartesTrouvees }}
-        @if(nombresCartesTrouvees > 1) {
-        <span>cartes trouvées</span>
-        }
-        @else {
-        <span>carte trouvée</span>
-        }
-    </div>
-    <div id="card-wrapper">
-        <div id="card-container">
-            @for (card of cards; track $index) {
-            <card [card]="card" [modeVariante]="false"></card>
+    <div [hidden]="!rechercheEffectuee">
+        @if(nombresCartesTrouvees > 0) {
+        <div id="how-much-area">
+            {{ nombresCartesTrouvees }}
+            @if(nombresCartesTrouvees > 1) {
+            <span>cartes trouvées</span>
+            }
+            @else {
+            <span>carte trouvée</span>
             }
         </div>
+        <div id="card-wrapper">
+            <div id="card-container">
+                @for (card of cards; track $index) {
+                <card [card]="card" [modeVariante]="false"></card>
+                }
+            </div>
+        </div>
+        <div class="flex-container mt-3">
+            <pagination [nombrePage]="nombrePage" [actualPage$]="actualPage$"></pagination>
+        </div>
+        }
+        @if(nombresCartesTrouvees === 0) {
+        <div>
+            <span>Aucun résultat</span>
+        </div>
+        }
     </div>
-    <div class="flex-container mt-3">
-        <pagination [nombrePage]="nombrePage" [actualPage$]="actualPage$"></pagination>
-    </div>
-    }
-    @if(nombresCartesTrouvees === 0)  {
-    <div>
-        <span>Aucun résultat</span>
-    </div>
-    }
-    }
-
 </div>
