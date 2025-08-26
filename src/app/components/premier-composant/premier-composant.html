@@ -2,7 +2,7 @@
     <h2>Recherche de cartes Altered</h2>
     <!-- Formulaire de recherche -->
     <search-form [actualPage$]="actualPage$" [isNavigation$]="isNavigation$"
-        (rechercheEffectuee)="displayResultArea($event)" (apiResult)="displayApiResult($event)"></search-form>
+        (rechercheEffectuee)="displayResultArea($event)" (cardsGetted)="displayCards($event)"></search-form>
 </div>
 <div class="cards-container">
     <h2>Retour de l'API Rest Altered</h2>

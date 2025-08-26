@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, Observable, tap } from 'rxjs';
-import { CardDetail } from '../../interfaces/card/card-details';
-import { DETAIL_SEARCH_BASE_URL, URL_TYPE, VARIANTE_URL } from '../../../utils/api-altered';
+import { tap } from 'rxjs';
 import { DETAIL_CARTE_HTML_TEXTE } from '../../../utils/text-constantes';
 import { GoldenTextPipe } from '../../pipes/golden-text-pipe';
 import { TextParserPipe } from "../../pipes/text-parser-pipe";
 import { FactionParserPipe } from "../../pipes/faction-parser-pipe";
 import { Card } from '../card/card';
+import { DetailCarteService } from './service/detail-carte-service';
+import { CardModel } from '../../rest/altered/models/card.model';
+import { AlteredApiGetCards } from '../../rest/altered/models/altered-api-get-cards.model';
+import { CardVariantModel } from '../../rest/altered/models/card-variant.model';
 
 @Component({
   selector: 'detail-carte-component',
@@ -18,8 +20,8 @@ import { Card } from '../card/card';
 })
 export class DetailCarteComponent {
 
-  public card!: CardDetail;
-  public variantesCarte!: Array<CardDetail>;
+  public card!: CardModel;
+  public variantesCarte!: Array<CardVariantModel>;
 
   public readonly DETAIL_CARTE_HTML_TEXTE = DETAIL_CARTE_HTML_TEXTE;
 
@@ -28,6 +30,7 @@ export class DetailCarteComponent {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
+    private detailCarteService: DetailCarteService,
     private router: Router
   ) {
     const idCarte = this.route.snapshot.paramMap.get('id')!;
@@ -69,13 +72,12 @@ export class DetailCarteComponent {
   }
 
   public chargerPage(idCarte: string) {
-    const appelDetailCarte: Observable<CardDetail> = this.http.get<CardDetail>(`${DETAIL_SEARCH_BASE_URL}${idCarte}`);
-    const appelVarianteCarte: Observable<any> = this.http.get<any>(`${DETAIL_SEARCH_BASE_URL}${idCarte}${VARIANTE_URL}`); // Renvoi le type de ressource standard
-    forkJoin([appelDetailCarte, appelVarianteCarte]).pipe(
-      tap(([card, variantesCarte]) => {
-        this.card = card as CardDetail; // Ici on match avec le premier appel REST, celui qui remonte le détail de la carte
-        this.variantesCarte = (variantesCarte?.["hydra:member"] ?? []) as Array<CardDetail>; // Celui-ci sera matché avec le deuxième appel REST, celui qui remonte les variantes
-        window.scrollTo({ top: 0 }); // Permet de remonter la page à sa position initiale (permet d)
+    this.detailCarteService.chargerPage(idCarte)
+    .pipe(
+      tap((cards: {detail: CardModel, variantes: Array<CardVariantModel>}) => {
+        this.card = cards.detail;
+        this.variantesCarte = cards.variantes;
+        window.scrollTo({ top : 0});
       })
     ).subscribe();
   }

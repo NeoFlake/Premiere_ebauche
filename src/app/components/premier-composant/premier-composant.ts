@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Pagination } from '../shared/pagination/pagination';
 import { Card } from '../card/card';
 import { SearchForm } from "../shared/search-form/search-form";
-import { ApiResult } from '../../interfaces/api/api-result';
 
 @Component({
   selector: 'premier-composant',
@@ -45,7 +44,7 @@ export class PremierComposant {
     this.isNavigation$.next(true);
   }
 
-  public displayApiResult(apiResult: ApiResult): void {
+  public displayCards(apiResult: any): void {
     this.nombresCartesTrouvees = apiResult.nombresCartesTrouvees;
     this.cards = apiResult.cards;
     this.nombrePage = apiResult.nombrePage;

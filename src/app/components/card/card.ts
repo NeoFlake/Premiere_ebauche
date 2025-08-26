@@ -1,6 +1,7 @@
-import { Component, input, Input, output } from '@angular/core';
-import { CardInterface } from '../../interfaces/card/card';
+import { Component, Input, output } from '@angular/core';
 import { Router } from '@angular/router';
+import { CardModel } from '../../rest/altered/models/card.model';
+import { CardVariantModel } from '../../rest/altered/models/card-variant.model';
 
 @Component({
   selector: 'card',
@@ -10,16 +11,16 @@ import { Router } from '@angular/router';
 })
 export class Card {
 
-  @Input() card!: CardInterface;
+  @Input() card!: CardModel|CardVariantModel;
+  @Input() modeVariante!: boolean;
 
   public varianteADetailler = output<string>();
-  @Input() modeVariante!: boolean;
 
   constructor(
     private router: Router
   ) { }
 
-  public openDetailCard(card: CardInterface) {
+  public openDetailCard(card: CardModel|CardVariantModel) {
     if (this.router.url.split('/')[1] === "carte") {   
       this.varianteADetailler.emit(card.reference);
     } else {

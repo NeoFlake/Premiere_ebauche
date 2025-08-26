@@ -4,11 +4,11 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { BehaviorSubject, distinctUntilChanged, tap } from 'rxjs';
 import { FACTION_OPTIONS, RARITY_OPTIONS, TYPE_OPTIONS, SUB_TYPE_OPTIONS, SET_OPTIONS, ALT_ART_OPTION, NAME_OPTION, KEYWORD_OPTIONS, SORT_OPTIONS, TYPE_API_OPTIONS, RARITY_API_OPTIONS, SET_API_OPTIONS, FACTION_API_OPTIONS, URL_SORT_BY } from '../../../../utils/api-altered';
 import { SearchFormService } from './service/search-form-service';
-import { ApiResult } from '../../../interfaces/api/api-result';
 import { CommonModule } from '@angular/common';
 import { FormChunkOptions } from '../../../interfaces/form/checkbox-list-options';
 import { FormChunk } from '../form-chunk/form-chunk';
 import { FormType } from '../../../enum/form-type.enum';
+import { AlteredApiGetCards } from '../../../rest/altered/models/altered-api-get-cards.model';
 
 @Component({
   selector: 'search-form',
@@ -45,7 +45,7 @@ export class SearchForm {
 
   @Input() actualPage$!: BehaviorSubject<number>;
   @Output() rechercheEffectuee = new EventEmitter<boolean>();
-  @Output() apiResult = new EventEmitter<ApiResult>();
+  @Output() cardsGetted = new EventEmitter<any>();
 
   // Valeur utilisé pour la lecture dans la vue
   readonly FACTION_OPTIONS = FACTION_OPTIONS;
@@ -227,14 +227,14 @@ export class SearchForm {
       [KEYWORD_OPTIONS, this.filters.keywords, formResult.keywords, true]
     ]);
 
-    this.searchFormService.getCardsFromSearch(formResult, rechercheComplexe)
+    this.searchFormService.getCards(formResult, rechercheComplexe)
       .pipe(
-        tap((data: any) => {
+        tap((data: AlteredApiGetCards) => {
 
-          this.apiResult.emit({
-            nombresCartesTrouvees: data.totalItems,
+          this.cardsGetted.emit({
+            nombresCartesTrouvees: data.nombreCartesTrouvees,
             cards: [...data.cards],
-            nombrePage: data.totalPages
+            nombrePage: data.nombrePage
           });
 
           setTimeout(() => this.rechercheEffectuee.emit(true), 0);

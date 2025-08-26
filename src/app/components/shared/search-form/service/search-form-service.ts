@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { BASE_URL, URL_FACTION, URL_RARITY, URL_TYPE, URL_SUB_TYPE, URL_SET, URL_MAIN_COST, URL_RECALL_COST, URL_CARAC_FOREST, URL_CARAC_MOUNTAIN, URL_CARAC_OCEAN, URL_KEYWORD, URL_NAME, URL_ALT_ART } from '../../../../../utils/api-altered';
-import { ApiRestAltered } from '../../../../services/api-rest-altered';
+import { ApiRestAltered } from '../../../../rest/altered/service/api-rest-altered';
 import { FormArray, FormControl } from '@angular/forms';
+import { AlteredApiGetCards } from '../../../../rest/altered/models/altered-api-get-cards.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,10 @@ export class SearchFormService {
 
   constructor(private apiRestAltered: ApiRestAltered) { }
 
-  public getCardsFromSearch(formOptions: SearchFormData, rechercheComplexe: boolean):
-    Observable<{ totalPages: number; totalItems: number; cards: any[] }> {
-
-    let cardList: Array<any> = [];
+  public getCards(formOptions: SearchFormData, rechercheComplexe: boolean):
+    Observable<AlteredApiGetCards> {
 
     let apiRequestUrl: string = BASE_URL;
-    let nbElement: number;
 
     apiRequestUrl += this.buildApiUrl([
       [formOptions.factions, URL_FACTION, true],
@@ -54,21 +52,8 @@ export class SearchFormService {
     if (apiRequestUrl[apiRequestUrl.length - 1] === "&" || apiRequestUrl[apiRequestUrl.length - 1] === "?") {
       apiRequestUrl = apiRequestUrl.slice(0, -1);
     }
-    
-    return this.apiRestAltered.getAlteredResources(apiRequestUrl).pipe(
-      map((data: any) => {
-        nbElement = data["hydra:totalItems"];
 
-        this.totalPages = Math.ceil(nbElement / 36);
-
-        data["hydra:member"].forEach((element: any) => cardList.push(element));
-        return {
-          totalPages: this.totalPages,
-          totalItems: nbElement,
-          cards: cardList
-        };
-
-      }));
+    return this.apiRestAltered.getCards(apiRequestUrl);
   }
 
   public hydrateForm(arrayOfChunks: Array<Array<any>>): boolean {
